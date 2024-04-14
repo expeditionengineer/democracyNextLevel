@@ -1,0 +1,53 @@
+services:
+    django-app:
+        build:
+            context: ${PWD}
+            dockerfile: Dockerfile
+            target: prod
+            args:
+                WEBCENTRAL_UNPRIVILEGED_USER: ${WEBCENTRAL_UNPRIVILEGED_USER}            
+        volumes:
+            - static-data:/home/${WEBCENTRAL_UNPRIVILEGED_USER}/webcentral
+        depends_on:
+            - change-vol-ownership
+        restart: always
+        env_file:
+          - .env
+        environment:
+            - UWSGI_LISTEN_PORT
+            - UWSGI_NUM_WORKERS
+            - SECRET_KEY
+            - DEBUG
+            - ALLOWED_HOSTS
+            - MODE=production
+        command: >
+            bash -c "python /home/$WEBCENTRAL_UNPRIVILEGED_USER/01_application/webcentral_app/manage.py collectstatic --noinput && \
+            uwsgi --socket :$UWSGI_LISTEN_PORT --chdir=/home/$WEBCENTRAL_UNPRIVILEGED_USER/01_application/webcentral_app --master --processes 4 --threads 2 --module=webcentral_app.wsgi:application --uid $WEBCENTRAL_UNPRIVILEGED_USER --gid $WEBCENTRAL_UNPRIVILEGED_USER"
+    proxy:
+        container_name: proxy
+        build:
+            context: ./proxy
+        restart: always
+        depends_on:
+            - webcentral
+        ports:
+            # - ${PORT_TO_OUTSIDE}:${NGINX_LISTEN_PORT}
+            - 443:${NGINX_LISTEN_PORT}
+            # data communication on port 80 on the host
+            # gets mapped to port 8000 inside the proxy container
+        environment:
+            - NGINX_LISTEN_PORT
+            - UWSGI_LISTEN_PORT
+            - NGINX_SSL_CERTIFICATE_FILENAME
+            - NGINX_SSL_CERTIFICATE_KEY_FILENAME
+        volumes:
+            - static-data:/vol/static
+            - ./proxy/dhparam/:/etc/nginx/dhparam
+            # - ./proxy/conf/:/etc/nginx/ssl/
+            # the proxy can directly serve the static data, without bothering
+            # the django app
+        command: >
+            bash -c "if [[ "$USE_PROD_LOCALLY" == "0" ]]; then envsubst < /etc/nginx/default.conf.tpl > /etc/nginx/conf.d/default.conf; else envsubst < /etc/nginx/localDefault.conf.tpl > /etc/nginx/conf.d/default.conf; fi && \
+            nginx -g 'daemon off;'"
+volumes:
+    static-data:
