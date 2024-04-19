@@ -1,0 +1,10 @@
+services:
+    djangoapp:
+        build:
+            context: ${PWD}/djangoApp
+            dockerfile: Dockerfile
+            target: dev
+        command: >
+            bash -c "python3 djangoApp/manage.py runserver 0.0.0.0:8000"
+        volumes:
+            - ${PWD}:/djangoApp/

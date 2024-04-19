@@ -1,0 +1,37 @@
+services:
+    db:
+        image: postgres
+        ports:
+            - ${DATABASE_OUTSIDE_PORT}:${DATABASE_INSIDE_PORT}
+        volumes:
+            #- ./postgres/${DATABASE_PLAIN_SQL_FILE}:/docker-entrypoint-initdb.d/${DATABASE_PLAIN_SQL_FILE}
+            - pgdata:/var/lib/postgresql/data
+        #     - ./db/postgresql.conf:/etc/postgresql/postgresql.conf
+        # command: postgres -c config_file=/etc/postgresql/postgresql.conf
+        env_file:
+          - .env
+        healthcheck:
+            test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+            interval: 10s
+            start_period: 3s
+        container_name: db
+    djangoapp:
+        build:
+            context: ${PWD}/djangoApp
+            dockerfile: Dockerfile
+            target: base
+            args:
+                PATH_WEBCENTRAL_SRC: ${PWD}
+                DJANGO_UNPRIVILEGED_USER: ${DJANGO_UNPRIVILEGED_USER}
+        ports:
+            - ${DJANGO_OUTSIDE_PORT}:${DJANGO_INSIDE_PORT}
+        depends_on:
+            - db
+        env_file:
+          - .env
+        environment:
+            - TZ=Europe/Berlin
+            - DJANGO_LISTEN_PORT
+        container_name: djangoapp
+volumes:
+    pgdata:
