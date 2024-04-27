@@ -1,8 +1,8 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
-class Event(models.model):
+class Event(models.Model):
     """ Django-Model-class for the Event-ORM
 
     """
@@ -18,8 +18,10 @@ class Event(models.model):
 
     image = models.ImageField(upload_to='events/images/')
     qrCode = models.ImageField(upload_to='events/qrcodes/')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    createdBy = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    updatedAt = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
