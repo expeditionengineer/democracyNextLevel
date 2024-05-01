@@ -16,8 +16,8 @@ class Event(models.Model):
 
     colorScheme = models.CharField(max_length=7, default='#007bff')
 
-    image = models.ImageField(upload_to='events/images/')
-    qrCode = models.ImageField(upload_to='events/qrcodes/')
+    image = models.ImageField(upload_to='events/images/', blank=True, null=True)
+    qrCode = models.ImageField(upload_to='events/qrcodes/', blank=True, null=True)
     createdAt = models.DateTimeField(auto_now_add=True)
     createdBy = models.ForeignKey(User, on_delete=models.CASCADE)
 

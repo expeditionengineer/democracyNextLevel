@@ -18,7 +18,12 @@ from django.urls import path, include
 from django.contrib import admin
 from django.urls import path
 
+from events.views import UserEventList
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('events/', UserEventList.as_view(), name='user-events'),
+
 ]
