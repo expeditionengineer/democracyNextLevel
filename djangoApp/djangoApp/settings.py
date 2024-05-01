@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     "rest_framework.authtoken",
     'dj_rest_auth',
+    "dj_rest_auth.registration",
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -77,6 +78,9 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ]
+}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'events.serializers.CustomRegisterSerializer',
 }
 
 WSGI_APPLICATION = 'djangoApp.wsgi.application'

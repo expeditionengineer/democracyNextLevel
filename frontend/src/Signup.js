@@ -10,6 +10,15 @@ function Signup() {
   const handleSignup = (e) => {
     e.preventDefault();
     // Handle signup here
+    axios.post('http://127.0.0.1:8000/dj-rest-auth/registration/',
+        {
+            "username": username,
+            "password1": password,
+            // "password2": "newpassword",
+            "email": email,
+            "role": role
+        }
+    )
   };
 
 return (
