@@ -33,5 +33,16 @@ services:
             - TZ=Europe/Berlin
             - DJANGO_LISTEN_PORT
         container_name: djangoapp
+    frontend:
+        build:
+            context: ${PWD}/frontend
+            dockerfile: Dockerfile
+            args:
+                PATH_WEBCENTRAL_SRC: ${PWD}
+        ports:
+            - ${FRONTEND_OUTSIDE_PORT}:${FRONTEND_INSIDE_PORT}
+        container_name: frontend
+        volumes:
+            - ${PWD}/frontend:/app
 volumes:
     pgdata:
