@@ -1,6 +1,6 @@
 // Signup.js
 import React, { useState } from 'react';
-
+import axios from 'axios';
 function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
