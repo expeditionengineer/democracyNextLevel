@@ -9,16 +9,16 @@ class EventSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# class CustomRegisterSerializer(RegisterSerializer):
-#     group = serializers.ChoiceField(
-#         [
-#             'creator', 
-#             'messenger', 
-#             'voter',
-#             "user",
-#         ]
-#     )
+class CustomRegisterSerializer(RegisterSerializer):
+    group = serializers.ChoiceField(
+        [
+            'creator',
+            'messenger',
+            'voter',
+            "user",
+        ]
+    )
 
-#     def custom_signup(self, request, user):
-#         user.role = self.validated_data.get('role', '')
-#         user.save(update_fields=['role'])
+    def custom_signup(self, request, user):
+        user.role = self.validated_data.get('role', '')
+        user.save(update_fields=['role'])

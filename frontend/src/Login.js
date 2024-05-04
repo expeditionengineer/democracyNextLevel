@@ -1,24 +1,39 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+// import axios from 'axios';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:8000/dj-rest-auth/login/', {
-            username: username,
-            password: password
+        fetch('http://localhost:8000/dj-rest-auth/login/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            }),
         })
         .then(response => {
-            // Save the token in local storage
-            localStorage.setItem('token', response.data.key);
+            if (!response.ok) {
+                throw new Error('Bad request');
+            }
+            return response.json();
+        })
+        .then(data => {
+            localStorage.setItem('token', data.key);
+            navigate('/');
         })
         .catch(error => {
-            // Handle error
-            console.error('There was an error!', error);
+            setError(error.message);
         });
     };
 
@@ -36,6 +51,7 @@ function Login() {
                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </label>
             </div>
+            {error && <div>{error}</div>}
             <input type="submit" value="Login" />
         </form>
     );
