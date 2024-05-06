@@ -27,6 +27,7 @@ services:
             - ${DJANGO_OUTSIDE_PORT}:${DJANGO_INSIDE_PORT}
         depends_on:
             - db
+            - frontend
         env_file:
           - .env
         environment:

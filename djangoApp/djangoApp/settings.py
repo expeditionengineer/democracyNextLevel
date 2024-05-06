@@ -90,7 +90,7 @@ REST_FRAMEWORK = {
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'events.serializers.CustomRegisterSerializer',
 }
-
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 WSGI_APPLICATION = 'djangoApp.wsgi.application'
 CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:3000',

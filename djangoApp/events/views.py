@@ -10,7 +10,6 @@ class UserEventList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
 
-
     def get_queryset(self):
         user = self.request.user
         return Event.objects.filter(createdBy=user)

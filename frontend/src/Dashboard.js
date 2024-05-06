@@ -39,15 +39,24 @@ function Dashboard() {
     }, []);
     return (
         <div>
-            <h1>Dashboard</h1>
-            <h3>Hi, {user}! </h3>
-            <p>You are currently in the </p>
-            {events.map(event => (
-                <div key={event.id}>
-                    <h2>{event.title}</h2>
-                    <p>{event.description}</p>
+            <div>
+                <h1>Dashboard</h1>
+                <h3>Hi, {user}! </h3>
+                <p>Your created events:</p>
+                {events.map(event => (
+                    <div key={event.id}>
+                        <h2>{event.title}</h2>
+                        <p>{event.description}</p>
+                    </div>
+                ))}
+                <div>
+                    <button onClick={() => navigate('/create-event')}>Create Event</button>
                 </div>
-            ))}
+            </div>
+            <div>
+                <h1>Upcoming Events:</h1>
+
+            </div>  
         </div>
     );
 }

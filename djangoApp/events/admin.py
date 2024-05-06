@@ -1,4 +1,6 @@
 from django.contrib import admin
+# from django.models.auth import Group
+
 from .models import Event
 
 class EventAdmin(admin.ModelAdmin):
@@ -31,3 +33,4 @@ class EventAdmin(admin.ModelAdmin):
         return True
 
 admin.site.register(Event, EventAdmin)
+# admin.site.register(Group)
