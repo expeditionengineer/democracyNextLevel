@@ -1,6 +1,6 @@
 services:
     db:
-        image: postgis/postgis:16-3.4
+        image: postgres
         ports:
             - ${DATABASE_OUTSIDE_PORT}:${DATABASE_INSIDE_PORT}
         volumes:

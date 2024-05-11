@@ -22,7 +22,7 @@ else
 fi
 
 # Set Docker container ID
-container_id=webcentral
+container_id=djangoapp
 currentDirInContainer=$(docker exec $container_id pwd)
 
 # Execute different actions based on the command
@@ -123,11 +123,11 @@ case $command in
         ;;
     "migrate")
         echo "Running Django migrations..."
-        docker exec -it $container_id python 01_application/webcentral_app/manage.py migrate
+        docker exec -it $container_id python manage.py migrate
         ;;
     "makemigrations")
         echo "Creating Django migrations..."
-        docker exec -it $container_id python 01_application/webcentral_app/manage.py makemigrations
+        docker exec -it $container_id python manage.py makemigrations
         ;;
     "shell")
         echo "Opening Django Shell..."
