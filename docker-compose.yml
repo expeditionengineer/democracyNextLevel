@@ -9,7 +9,7 @@ services:
         #     - ./db/postgresql.conf:/etc/postgresql/postgresql.conf
         # command: postgres -c config_file=/etc/postgresql/postgresql.conf
         env_file:
-          - .env
+            - .env
         healthcheck:
             test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
             interval: 10s
@@ -27,11 +27,23 @@ services:
             - ${DJANGO_OUTSIDE_PORT}:${DJANGO_INSIDE_PORT}
         depends_on:
             - db
+            - frontend
         env_file:
-          - .env
+            - .env
         environment:
             - TZ=Europe/Berlin
             - DJANGO_LISTEN_PORT
         container_name: djangoapp
+    frontend:
+        build:
+            context: ${PWD}/frontend
+            dockerfile: Dockerfile
+            args:
+                PATH_WEBCENTRAL_SRC: ${PWD}
+        ports:
+            - ${FRONTEND_OUTSIDE_PORT}:${FRONTEND_INSIDE_PORT}
+        container_name: frontend
+        volumes:
+            - ${PWD}/frontend:/app
 volumes:
     pgdata:

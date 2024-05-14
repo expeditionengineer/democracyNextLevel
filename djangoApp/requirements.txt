@@ -1,2 +1,9 @@
 django
+djangorestframework
+django-cors-headers
+django-cms
+dj-rest-auth
 psycopg2
+Pillow
+django-allauth
+requests
