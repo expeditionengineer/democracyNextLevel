@@ -6,6 +6,7 @@ import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './Dashboard';
 import CreateEvent from './CreateEvent';
+import IotDeviceMap from './iotDeviceLocation';
 
 function App() {
   const [username, setUsername] = useState("");
@@ -28,6 +29,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/create-event" element={<CreateEvent />} />
+            <Route path="/iotdevices" element={<IotDeviceMap />} />
           </Routes>
       </div>
     </Router>

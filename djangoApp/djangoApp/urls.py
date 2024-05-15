@@ -19,11 +19,13 @@ from django.contrib import admin
 from django.urls import path
 
 from events.views import UserEventList
-
+from iotManager.views import IotDeviceAPI
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path('events/', UserEventList.as_view(), name='user-events'),
-    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path("admin/", admin.site.urls),
+    path("dj-rest-auth/", include("dj_rest_auth.urls")),
+    path("events/", UserEventList.as_view(), name="user-events"),
+    path("dj-rest-auth/registration/",
+         include("dj_rest_auth.registration.urls")),
+    path("iotdevices/", IotDeviceAPI.as_view(), name="iotdevices"),
 ]
