@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "events.apps.EventsConfig",
     "iotManager.apps.IotmanagerConfig",
+    "content.apps.ContentConfig",
 ]
 
 MIDDLEWARE = [
