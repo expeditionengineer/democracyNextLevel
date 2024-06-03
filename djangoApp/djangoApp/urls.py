@@ -20,7 +20,8 @@ from django.urls import path
 
 from events.views import UserEventList
 from iotManager.views import IotDeviceAPI
-from content.views import ContentAPI
+
+# from content.views import ContentAPI
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -29,5 +30,5 @@ urlpatterns = [
     path("dj-rest-auth/registration/",
          include("dj_rest_auth.registration.urls")),
     path("iotdevices/", IotDeviceAPI.as_view(), name="iotdevices"),
-    path("contents/", ContentAPI.as_view(), name="contents"),
+    # path("contents/", ContentAPI.as_view(), name="contents"),
 ]
