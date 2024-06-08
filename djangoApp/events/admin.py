@@ -1,9 +1,12 @@
 from django.contrib import admin
+
 # from django.models.auth import Group
 
-from .models import Event
+from .models import Event, Location, Organizer, Tag
+
 
 class EventAdmin(admin.ModelAdmin):
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
@@ -32,5 +35,10 @@ class EventAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return True
 
+
 admin.site.register(Event, EventAdmin)
+admin.site.register(Location)
+admin.site.register(Organizer)
+admin.site.register(Tag)
+
 # admin.site.register(Group)

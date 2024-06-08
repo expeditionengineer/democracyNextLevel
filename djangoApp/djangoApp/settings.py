@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "rest_framework.authtoken",
+    "django-filter",
     # 'django.contrib.sites',
     "allauth",
     "allauth.account",
@@ -86,6 +87,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
         # Other authentication classes...
     ],
+    "DEFAULT_FILTER_BACKENDS":
+    ("django_filters.rest_framework.DjangoFilterBackend", ),
 }
 REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "events.serializers.CustomRegisterSerializer",
