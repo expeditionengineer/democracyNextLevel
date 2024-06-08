@@ -4,6 +4,7 @@ from rest_framework.authentication import TokenAuthentication
 from .models import Event
 from .serializers import EventSerializer
 
+
 class UserEventList(generics.ListAPIView):
     serializer_class = EventSerializer
 
@@ -12,4 +13,4 @@ class UserEventList(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Event.objects.filter(createdBy=user)
+        return Event.objects.filter(published=True, createdBy=user)
