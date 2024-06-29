@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class Location(models.Model):
@@ -58,7 +58,8 @@ class Event(models.Model):
                                blank=True,
                                null=True)
     createdAt = models.DateTimeField(auto_now_add=True)
-    createdBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    createdBy = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  on_delete=models.CASCADE)
 
     updatedAt = models.DateTimeField(auto_now=True)
 

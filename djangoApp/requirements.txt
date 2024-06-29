@@ -2,6 +2,7 @@ django
 djangorestframework
 django-cors-headers
 django-filter
+django-postman
 # django-cms
 dj-rest-auth
 psycopg2
