@@ -1,5 +1,5 @@
 import { Navigate, Route } from 'react-router-dom';
-import Dashboard from './Dashboard'; // Import your Dashboard component
+import Dashboard from './pages/Dashboard'; // Import your Dashboard component
 
 function ProtectedRoute() {
     const token = localStorage.getItem('token');
