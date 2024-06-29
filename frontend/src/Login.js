@@ -12,7 +12,7 @@ function Login() {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        fetch('http://localhost:8000/dj-rest-auth/login/', {
+        fetch('http://127.0.0.1:8000/dj-rest-auth/login/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

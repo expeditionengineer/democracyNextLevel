@@ -1,29 +1,71 @@
+from datetime import datetime
+
 from django.db import models
-from django.contrib.auth.models import User
-# Create your models here.
+from django.conf import settings
+
+
+class Location(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+    address = models.CharField(max_length=200, blank=True, null=True)
+    city = models.CharField(max_length=200, blank=True, null=True)
+    country = models.CharField(max_length=200, blank=True, null=True)
+    postalCode = models.CharField(max_length=200, blank=True, null=True)
+
+
+class Organizer(models.Model):
+    name = models.CharField(max_length=200)
+    telefon = models.CharField(max_length=200, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+
+
+class Tag(models.Model):
+    """Django-Model-class for the Tag-ORM"""
+
+    name = models.CharField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Event(models.Model):
-    """ Django-Model-class for the Event-ORM
-
-    """
+    """Django-Model-class for the Event-ORM"""
 
     title = models.CharField(max_length=200)
     description = models.TextField()
-    date = models.DateTimeField()
-    location = models.CharField(max_length=200)
+    startDate = models.DateTimeField(default=datetime.now,
+                                     blank=True,
+                                     null=True)
+    endDate = models.DateTimeField(default=datetime.now, blank=True, null=True)
+
+    location = models.ForeignKey(Location,
+                                 on_delete=models.CASCADE,
+                                 blank=True,
+                                 null=True)
+
+    organizer = models.ManyToManyField(Organizer, blank=True, null=True)
 
     repeated = models.BooleanField(default=False)
 
-    colorScheme = models.CharField(max_length=7, default='#007bff')
+    colorScheme = models.CharField(max_length=7, default="#007bff")
 
-    image = models.ImageField(upload_to='events/images/', blank=True, null=True)
-    qrCode = models.ImageField(upload_to='events/qrcodes/', blank=True, null=True)
+    image = models.ImageField(upload_to="events/images/",
+                              blank=True,
+                              null=True)
+    qrCode = models.ImageField(upload_to="events/qrcodes/",
+                               blank=True,
+                               null=True)
     createdAt = models.DateTimeField(auto_now_add=True)
-    createdBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    createdBy = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  on_delete=models.CASCADE)
 
     updatedAt = models.DateTimeField(auto_now=True)
 
+    tag = models.ManyToManyField(Tag, blank=True, null=True)
+
+    published = models.IntegerField(default=False)
+
     def __str__(self):
         return self.title
-
-

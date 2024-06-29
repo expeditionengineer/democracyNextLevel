@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "rest_framework.authtoken",
+    "django_filters",
+    "postman",
     # 'django.contrib.sites',
     "allauth",
     "allauth.account",
@@ -46,6 +48,8 @@ INSTALLED_APPS = [
     "events.apps.EventsConfig",
     "iotManager.apps.IotmanagerConfig",
     "content.apps.ContentConfig",
+    "channels.apps.ChannelsConfig",
+    "common.apps.CommonConfig",
 ]
 
 MIDDLEWARE = [
@@ -77,6 +81,8 @@ TEMPLATES = [
         },
     },
 ]
+# custom user model points to app common
+AUTH_USER_MODEL = "common.User"
 
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": [
@@ -86,6 +92,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
         # Other authentication classes...
     ],
+    "DEFAULT_FILTER_BACKENDS":
+    ("django_filters.rest_framework.DjangoFilterBackend", ),
 }
 REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "events.serializers.CustomRegisterSerializer",
