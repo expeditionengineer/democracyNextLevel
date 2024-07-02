@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { House, Palette, Newspaper, CalendarEvent,
          Diagram3, PeopleFill, Cast, Display,
          FileImage, PersonGear, Brush, Megaphone,
@@ -11,7 +12,7 @@ import logo from '../graphics/DNL_Logo.png';
 
 const LeftNavbar = () => {
   return (
-    <nav>
+    <Navbar sticky="top" expand={false}>
       <header className="offcanvas-header">
         <h1 className="offcanvas-title">
             <a href="#">
@@ -22,125 +23,95 @@ const LeftNavbar = () => {
       </header>
       <div className="offcanvas-body">
         <div className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style={{width: "280px"}}>
-          <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none navbar-brand">
-            <img src={logo} alt="DNL Logo" style={{width: "100%"}} />
+          <Navbar.Brand href="/">
+            <img
+              src={logo}
+              alt="DNL Logo"
+              width="32"
+              height="30"
+              className="d-inline-block align-top"
+            />{' '}
             Democracy Next Level
-          </a>
+          </Navbar.Brand>
           <hr />
-          <ul className="nav nav-pills flex-column mb-auto">
-            <li className="nav-item">
-              <a href="#" className="nav-link active" aria-current="page">
-                <House className="me-2" />
-                Start
-              </a>
-            </li>
-            <li>
-              <a href="#" className="nav-link link-body-emphasis">
-                <img className="bi me-2" width="18" height="16" src={logo} alt="DNL Logo" />
-                Über uns
-              </a>
-            </li>
-            <li>
-              <a href="#channels" className="nav-link link-body-emphasis me-4" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="channels">
-                <Palette className="me-2" />
-                Kanäle
-              </a>
-              <ul className="nav ms-4 collapse" id="channels">
-                <li className="nav-item">
-                  <a href="#" className="nav-link link-body-emphasis">
-                    <Newspaper className="me-2" />
-                    Neuigkeiten
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="nav-link link-body-emphasis">
-                    <CalendarEvent className="me-2" />
-                    Veranstaltungen
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="nav-link link-body-emphasis">
-                    <Diagram3 className="me-2" />
-                    Projekte
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="nav-link link-body-emphasis">
-                    <PeopleFill className="me-2" />
-                    Akteure
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="#media" className="nav-link link-body-emphasis me-4" style={{marginTop: "300px"}} role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="media">
-                <Cast className="me-2" />
-                Media
-              </a>
-              <ul className="nav ms-4 collapse" id="media">
-                <li className="nav-item">
-                  <a href="#" className="nav-link link-body-emphasis">
-                    <Display className="me-2" />
-                    Democracy Displays
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="nav-link link-body-emphasis">
-                    <FileImage className="me-2" />
-                    Democracy Poster
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="#roles" className="nav-link link-body-emphasis me-4" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="roles">
-                <PersonGear className="me-2" />
-                Rollen
-              </a>
-              <ul className="nav ms-4 collapse" id="roles">
-                <li className="nav-item">
-                  <a href="#" className="nav-link link-body-emphasis">
-                    <Brush className="me-2" />
-                    Creator
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="nav-link link-body-emphasis">
-                    <Megaphone className="me-2" />
-                    Messenger
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="nav-link link-body-emphasis">
-                    <PersonRaisedHand className="me-2" />
-                    Voter
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="#" className="nav-link link-body-emphasis">
-                    <Ban className="me-2" />
-                    Moderator
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
+          <Nav>
+            <Nav.Link href="/">
+              <House className="me-2" />
+              Start
+            </Nav.Link>
+            <Nav.Link href="/about">
+              <img className="bi me-2" width="18" height="16" src={logo} alt="DNL Logo" />
+              Über uns
+            </Nav.Link>
+            <NavDropdown
+              title={(<><Palette className="me-2" />Kanäle</>)}
+            >
+              <NavDropdown.Item href="/news">
+                <Newspaper className="me-2" />
+                Neuigkeiten
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/events">
+                <CalendarEvent className="me-2" />
+                Veranstaltungen
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/projects">
+                <Diagram3 className="me-2" />
+                Projekte
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/actors">
+                <PeopleFill className="me-2" />
+                Akteure
+              </NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown
+              title={(<><Cast className="me-2" />Media</>)}
+            >
+              <NavDropdown.Item href="/displays">
+                <Display className="me-2" />
+                Democracy Displays
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/posters">
+                <FileImage className="me-2" />
+                Democracy Poster
+              </NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown
+              title={(<><PersonGear className="me-2" />Rollen</>)}
+            >
+              <NavDropdown.Item href="/creators">
+                <Brush className="me-2" />
+                Creator
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/messengers">
+                <Megaphone className="me-2" />
+                Messenger
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/voters">
+                <PersonRaisedHand className="me-2" />
+                Voter
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/moderators">
+                <Ban className="me-2" />
+                Moderator
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
           <hr />
-          <div className="dropdown">
-            <a href="#" className="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <Dropdown>
+            <Dropdown.Toggle variant="text">
               <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
               <strong>Max Mustermann</strong>
-            </a>
-            <ul className="dropdown-menu text-small shadow">
-              <li><a className="dropdown-item" href="#">Settings</a></li>
-              <li><a className="dropdown-item" href="#">Profile</a></li>
-              <li><hr className="dropdown-divider" /></li>
-              <li><a className="dropdown-item" href="#">Sign out</a></li>
-            </ul>
-          </div>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item href="#">Profil</Dropdown.Item>
+              <Dropdown.Item href="#">Einstellungen</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item href="#">Logout</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </div>
-    </nav>
+    </Navbar>
   )
 };
 

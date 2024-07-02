@@ -2,11 +2,10 @@ import { Outlet, Link } from 'react-router-dom';
 
 import LeftNavbar from '../components/LeftNavbar.js';
 import TopNavbar from '../components/TopNavbar.js';
-
+import Footer from '../components/Footer.js';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Offcanvas from 'react-bootstrap/Offcanvas';
 
 import './Layout.css';
 import logo from '../graphics/DNL_Logo.png';
@@ -17,7 +16,7 @@ const Layout = () => {
     <Container fluid>
       <Row>
         {/* LeftNavbar */}
-	      <Col as="nav" xs={3} className="offcanvas-lg offcanvas-start" tabindex="-1" id="leftNavbar">
+	      <Col className="col-auto">
 	        <LeftNavbar />
         </Col>
         <Col>
@@ -25,6 +24,7 @@ const Layout = () => {
 	        <TopNavbar />
 	        {/* Content */}
           <Outlet />
+          <Footer />
         </Col>
       </Row>
     </Container>
