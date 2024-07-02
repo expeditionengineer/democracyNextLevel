@@ -1,39 +1,31 @@
 import { Link } from 'react-router-dom';
 
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import Dropdown from 'react-bootstrap/Dropdown';
 import { House, Palette, Newspaper, CalendarEvent,
          Diagram3, PeopleFill, Cast, Display,
          FileImage, PersonGear, Brush, Megaphone,
          PersonRaisedHand, Ban } from 'react-bootstrap-icons';
 import logo from '../graphics/DNL_Logo.png';
 
-const LeftNavbar = () => {
+const LeftNavbar = ({show, closeNavbar}) => {
   return (
-    <Navbar sticky="top" expand={false}>
-      <header className="offcanvas-header">
-        <h1 className="offcanvas-title">
-            <a href="#">
-              <img src={logo} alt="DNL Logo" width="30" height="28" />
-            </a>
-        </h1>
-        <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </header>
-      <div className="offcanvas-body">
-        <div className="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style={{width: "280px"}}>
-          <Navbar.Brand href="/">
-            <img
-              src={logo}
-              alt="DNL Logo"
-              width="32"
-              height="30"
-              className="d-inline-block align-top"
-            />{' '}
-            Democracy Next Level
-          </Navbar.Brand>
-          <hr />
+    <Offcanvas
+      responsive="lg"
+      show={show}
+      onHide={closeNavbar}
+    >
+      <Offcanvas.Header closeButton>
+        <Offcanvas.Title>
+          <a href="/">
+            <img src={logo} alt="DNL Logo" width="30" height="28" />
+          </a>
+        </Offcanvas.Title>
+      </Offcanvas.Header>
+       <Offcanvas.Body>
+        <Navbar sticky="top" expand={false}>
           <Nav>
             <Nav.Link href="/">
               <House className="me-2" />
@@ -95,23 +87,10 @@ const LeftNavbar = () => {
                 Moderator
               </NavDropdown.Item>
             </NavDropdown>
-          </Nav>
-          <hr />
-          <Dropdown>
-            <Dropdown.Toggle variant="text">
-              <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
-              <strong>Max Mustermann</strong>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item href="#">Profil</Dropdown.Item>
-              <Dropdown.Item href="#">Einstellungen</Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item href="#">Logout</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </div>
-    </Navbar>
+          </Nav>          
+        </Navbar>
+       </Offcanvas.Body>
+    </Offcanvas>
   )
 };
 
