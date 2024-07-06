@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from events.models import Tag
 
@@ -10,16 +11,51 @@ from events.models import Tag
 # all channel instances can have at most one link
 
 
-class Like(models.Model):
+class DebatePoint(models.Model):
     """ """
 
-    likingDate = models.DateTimeField()
+    date = models.DateTimeField()
     voter = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE)
-
+    point = models.IntegerField(
+        validators=[MaxValueValidator(1), MinValueValidator(-1)],
+        default=0,
+    )
+    
     def __str__(self):
         return self.voter.username
 
+class MarkPerson(models.Model):
+    """
+
+    """
+    markingPerson = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='marking_set',
+        on_delete=models.CASCADE
+    )
+    markedPerson = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='marked_set',
+        on_delete=models.CASCADE
+    )
+
+class DebateCard(models.Model):
+    """
+    
+    """
+    title = models.CharField(max_length=100)
+    description = models.CharField(max_length=1500)
+    image = models.ImageField(blank=True, null=True)
+    debateCardLinks = models.ManyToManyField('self', blank=True, null=True)
+    contentLinks = models.ManyToManyField('News', blank=True, null=True)
+    createdBy = models.ForeignKey(settings.AUTH_USER_MODEL,
+                              on_delete=models.CASCADE, null=True, blank=True)
+    markings = models.ManyToManyField('MarkPerson', blank=True, null=True)    
+    category = models.IntegerField(
+        validators=[MaxValueValidator(5), MinValueValidator(1)],
+        default=1,
+    )
 
 class News(models.Model):
     """ """
@@ -27,7 +63,6 @@ class News(models.Model):
     heading = models.CharField(max_length=70)
     text = models.CharField(max_length=155)
     approvedByModerator = models.BooleanField(default=False)
-    likes = models.ManyToManyField(Like, blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
 
     # these attributes can maybe be moved in a parent class
@@ -56,7 +91,6 @@ class Project(models.Model):
     suggested = models.BooleanField(default=False)
     published = models.BooleanField(default=False)
 
-    likes = models.ManyToManyField(Like, blank=True, null=True)
     tag = models.ManyToManyField(Tag, blank=True, null=True)
 
     link = models.CharField(max_length=200)
@@ -76,7 +110,6 @@ class Stakeholder(models.Model):
     suggested = models.BooleanField(default=False)
     published = models.BooleanField(default=False)
 
-    likes = models.ManyToManyField(Like, blank=True, null=True)
     tag = models.ManyToManyField(Tag, blank=True, null=True)
 
     link = models.CharField(max_length=200)

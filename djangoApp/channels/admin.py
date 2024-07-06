@@ -4,10 +4,15 @@ from .models import (
     News,
     Project,
     Stakeholder,
-    Like,
+    DebatePoint,
+    DebateCard,
+    MarkPerson,
 )
 
+
+admin.site.register(DebatePoint)
+admin.site.register(DebateCard)
 admin.site.register(News)
 admin.site.register(Project)
 admin.site.register(Stakeholder)
-admin.site.register(Like)
+admin.site.register(MarkPerson)
