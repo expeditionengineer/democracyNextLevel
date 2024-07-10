@@ -12,12 +12,15 @@ const News = () => {
   const color = "red"
   
   return (
-  <>
+  <Row as="main" xs={1} xl={2} xxl={3}>
     <GeneralCard 
       color="red"
       icon={(<Newspaper className="me-2" style={{color: color}} />)}
       title="CardTitle"
-      author="Jane Doe"
+      author={{
+        name: "Jane Doe",
+        profilePic: "https://github.com/mdo.png"
+      }}
       date="02.07.2024"
       picLink={testPic}
       description="Some quick example text to build on the card title and make up the \
@@ -31,7 +34,10 @@ const News = () => {
       color="red"
       icon="Information"
       title="CardTitle"
-      author="Jane Doe"
+      author={{
+        name: "Jane Doe",
+        profilePic: "https://github.com/mdo.png"
+      }}
       date="02.07.2024"
       picLink={testPic}
       description="Some quick example text to build on the card title and make up the \
@@ -45,7 +51,10 @@ const News = () => {
       color="red"
       icon="Pro-Argument"
       title="CardTitle"
-      author="Jane Doe"
+      author={{
+        name: "Jane Doe",
+        profilePic: "https://github.com/mdo.png"
+      }}
       date="02.07.2024"
       picLink={testPic}
       description="Some quick example text to build on the card title and make up the \
@@ -59,7 +68,10 @@ const News = () => {
       color="red"
       icon="Frage"
       title="CardTitle"
-      author="Jane Doe"
+      author={{
+        name: "Jane Doe",
+        profilePic: "https://github.com/mdo.png"
+      }}
       date="02.07.2024"
       picLink={testPic}
       description="Some quick example text to build on the card title and make up the \
@@ -73,7 +85,10 @@ const News = () => {
       color="red"
       icon="Verbessern"
       title="CardTitle"
-      author="Jane Doe"
+      author={{
+        name: "Jane Doe",
+        profilePic: (<profilePic/>)
+      }}
       date="02.07.2024"
       picLink={testPic}
       description="Some quick example text to build on the card title and make up the \
@@ -83,7 +98,7 @@ const News = () => {
       />}
       link="#"
     />
-  </>
+  </Row>
   )
 };
 

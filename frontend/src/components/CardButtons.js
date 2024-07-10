@@ -30,6 +30,8 @@ const proposalCardButtons = (
       <Row style={{position: "relative", top: -10 }}>
         <ButtonGroup aria-label="Basic example">
           <Button variant="secondary">Analysieren</Button>
+          <Button variant="secondary">Verlinken</Button>
+          <Button variant="secondary">Teilen</Button>
           <Button variant="secondary" style={{backgroundColor: "green"}}>Information</Button>
         </ButtonGroup>
       </Row>
