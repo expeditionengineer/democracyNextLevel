@@ -1,29 +1,56 @@
 import { Link } from 'react-router-dom';
 
+import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button';
+
+import Dropdown from 'react-bootstrap/Dropdown';
 import { Search } from 'react-bootstrap-icons';
 
-const TopNavbar = () => {
+const TopNavbar = ({showLeftNavbar}) => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light">
-      <div className="container-fluid">
+    <Navbar sticky="top" expand="lg">
+      <Container fluid>
         {/* NavbarToggler */}
-        <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#leftNavbar" aria-controls="leftNavbar" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
+        <button
+          onClick={showLeftNavbar}
+          className="navbar-toggler"
+        >
+           <span className="navbar-toggler-icon"></span>
         </button>
         {/* SearchBar */}
-        <form className="d-flex" role="search">
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1"><Search className="me-2" /></span>
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-success" type="submit">Search</button>
-          </div>
-        </form>
-        <span className="navbar-text">DNL</span>
-      </div>
-    </nav>
+        <Form role="search" inline>
+          <InputGroup>
+            <InputGroup.Text id="basic-addon1"><Search /></InputGroup.Text>
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              aria-label="search"
+              aria-describedby="basic-addon1"
+            />
+            <Button type="submit">Suchen</Button>
+          </InputGroup>
+        </Form>
+        <Dropdown
+          align={{ xs: 'start' }}
+        >
+          <Dropdown.Toggle variant="text">
+            <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
+            <strong className="d-none d-lg-inline">Max Mustermann</strong>
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item href="#">Profil</Dropdown.Item>
+            <Dropdown.Item href="#">Einstellungen</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item href="#">Logout</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Container>
+    </Navbar>
   )
 };
 
