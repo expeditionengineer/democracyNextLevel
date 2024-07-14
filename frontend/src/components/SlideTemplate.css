@@ -1,0 +1,130 @@
+.carousel {
+  font-family: "Josefin Sans";
+}
+
+.carousel-item {
+  width: 100vw !important;
+  height: 100vh !important;
+  background: url('https://www.tagesspiegel.de/berlin/bezirke/images/f3spree-schlossbrucke-richtung-siemensstegholger-walkling/alternates/BASE_16_9_W1400/f3spree-schlossbruecke-richtung-siemensstegholger-walkling.jpeg') lightgray 50% / cover no-repeat fixed;
+  max-width: 100%;
+  height: auto;
+  color: #FFF;
+  font-style: normal;
+  box-sizing: border-box;
+}
+
+.carousel-item header {
+  z-index: 2;
+  position: absolute;
+  display: flex;
+  width: 50vw;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 4vw;
+  font-weight: 400;
+  background-color: #0F518B;
+  margin-top: 4vh;
+  margin-left: 5vw;
+}
+
+.carousel-item header {
+  padding: 1.5vw;
+}
+
+.bi-calendar-event{
+  font-size: 3rem;
+}
+.beschreibungstext {
+  position: absolute;
+  background-color: #45B1DF;
+  width: 50vw;
+  font-size: 2vh;
+  font-weight: 400;
+  line-height: normal;
+  text-align: justify;
+  top: 40vh;
+  left: 32vw;
+  transform: translateY(-50%);
+  padding-top: 13vh;
+  padding-left: 9vw;
+  padding-right: 5vw;
+  padding-bottom: 5vh;
+}
+.daten{
+  z-index: 2;
+  position: absolute;
+  box-sizing: border-box;
+  background-color: #2185B7;
+  width: 33vw;
+  height: 31vh;
+  font-size: 3vw;
+  font-weight: 400;
+  line-height: 1.25;
+  margin-top: 40vh;
+  margin-left: 5vw;
+  padding: 10px;
+}
+.qr-code{
+  z-index: 2;
+  position: absolute;
+  background-color: #D9D9D9;
+  min-width: 15px;
+  width: 14vw;
+  min-height: 15px;
+  aspect-ratio: 1/1;
+  margin-top: 4vh;
+  margin-left: 75vw;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2vw;
+}
+
+.qr-code > img {
+  width: 100%
+}
+.autor{
+    box-sizing: border-box;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 2vw;
+    font-weight: 400;
+    line-height: normal;
+    background-color: #0F518B;
+    top: 6vh;
+    left: 1vw;
+    padding: 0.5vh;
+}
+.carousel-item > img{
+    position: absolute;
+    min-width:10px;
+    min-height:10px;
+    width: 10vh;
+    bottom: 5vh;
+    left: 5vh;
+}
+@media screen and (min-aspect-ratio: 16/9){
+  .carousel-item header {
+    font-size: 2vw;
+  }
+    .beschreibungstext {
+    font-size: 3.25vh;
+    padding-left: 7vw;
+    padding-right: 2vw;
+  }
+    .daten{
+    font-size: 3.5vh;
+}
+    .qr-code{
+    width: 144px;
+    height: 144px;
+    margin-left: 80vw;
+}
+    .autor{
+    font-size: 1vw;
+    margin-left: 70vw;
+    padding: 0.5vh;
+}
+}
