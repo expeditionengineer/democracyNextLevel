@@ -7,8 +7,8 @@ import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import CreateEvent from './CreateEvent';
 import IotDeviceMap from './iotDeviceLocation';
-
 import News from './pages/News';
+import DisplaySlideshow from './pages/DisplaySlideshow';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -38,6 +38,7 @@ function App() {
               <Route path="/iotdevices" element={<IotDeviceMap />} />
               <Route path="/news" element={<News />} />
             </Route>
+            <Route path="/display-slideshow" element={<DisplaySlideshow />} />
           </Routes>
       </div>
     </Router>
