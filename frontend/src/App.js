@@ -7,6 +7,9 @@ import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import CreateEvent from './CreateEvent';
 import IotDeviceMap from './iotDeviceLocation';
+<<<<<<< frontend/src/App.js
+
+import NoPage from "./pages/NoPage";
 import News from './pages/News';
 import DisplaySlideshow from './pages/DisplaySlideshow';
 
@@ -37,6 +40,7 @@ function App() {
               <Route path="/create-event" element={<CreateEvent />} />
               <Route path="/iotdevices" element={<IotDeviceMap />} />
               <Route path="/news" element={<News />} />
+              <Route path="*" element={<NoPage />} />
             </Route>
             <Route path="/display-slideshow" element={<DisplaySlideshow />} />
           </Routes>

@@ -5,14 +5,14 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Newspaper } from 'react-bootstrap-icons';
-import testPic from '../graphics/Schock.jpg'
+
 
 const ContentCard = () => {
   const colorMatching = {
     events: "orange",
     news: "red",
     actors: "brown",
-    projects: "green"
+    projects: "green",
   };
   const contentColor = "red";
   
@@ -40,11 +40,10 @@ const ContentCard = () => {
           </Row>
         </Container>
       </Card.Header>
-      <Card.Img variant="top" src={testPic} />
+      <Card.Img variant="top" src={} />
       <Card.Body>
         <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content. Noch ein paar Sätze mehr. Noch ein paar Sätze mehr.
+          
         </Card.Text>
         <Button variant="link">Erfahre mehr&hellip;</Button>
       </Card.Body>
