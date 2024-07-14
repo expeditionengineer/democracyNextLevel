@@ -7,8 +7,6 @@ import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import CreateEvent from './CreateEvent';
 import IotDeviceMap from './iotDeviceLocation';
-<<<<<<< frontend/src/App.js
-
 import NoPage from "./pages/NoPage";
 import News from './pages/News';
 import DisplaySlideshow from './pages/DisplaySlideshow';
@@ -28,23 +26,19 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        {/* <header className="App-header">
-        </header> */}
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={!token ? <Login /> : <Navigate to="/dashboard" replace />} />
-              <Route path="/login" element={<Login />} /> 
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/create-event" element={<CreateEvent />} />
-              <Route path="/iotdevices" element={<IotDeviceMap />} />
-              <Route path="/news" element={<News />} />
-              <Route path="*" element={<NoPage />} />
-            </Route>
-            <Route path="/display-slideshow" element={<DisplaySlideshow />} />
-          </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={!token ? <Login /> : <Navigate to="/dashboard" replace />} />
+          <Route path="/login" element={<Login />} /> 
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/create-event" element={<CreateEvent />} />
+          <Route path="/iotdevices" element={<IotDeviceMap />} />
+          <Route path="/news" element={<News />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+        <Route path="/display-slideshow" element={<DisplaySlideshow />} />
+      </Routes>
     </Router>
   );
 }
