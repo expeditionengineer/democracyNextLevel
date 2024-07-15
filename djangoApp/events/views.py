@@ -37,3 +37,9 @@ class UserEventList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(createdBy=self.request.user)
+
+def get_published_events(request):
+    published_events = Event.objects.filter(published=1)
+    serializer = EventSerializer(published_events)
+    return serializer.data
+

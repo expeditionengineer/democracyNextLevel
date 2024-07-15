@@ -44,7 +44,7 @@ class Event(models.Model):
                                  on_delete=models.CASCADE,
                                  blank=True,
                                  null=True)
-
+    link = models.TextField(blank=True, null=True)
     organizer = models.ManyToManyField(Organizer, blank=True, null=True)
 
     repeated = models.BooleanField(default=False)

@@ -2,8 +2,10 @@ from django.shortcuts import render
 from rest_framework import generics
 
 from .models import IotDevice
+from common.models import User
+from events.models import Event
 from .serializers import IotDeviceSerializer
-
+from .scraper_json import WebScraper
 
 class IotDeviceAPI(generics.ListAPIView):
     serializer_class = IotDeviceSerializer
@@ -12,3 +14,30 @@ class IotDeviceAPI(generics.ListAPIView):
         """Return all iotDevice-objects"""
 
         return IotDevice.objects.all()
+
+def execute_scraper(request):
+    """
+
+    """
+    mierendorfinsel_scraper = WebScraper("https://mierendorffinsel.org/wp-json/tribe/events/v1/events/")
+    mierendorfinsel_scraper.run()
+
+    scraped_events = mierendorfinsel_scraper.events
+
+    for event in scraped_events:
+        locationObj = Location.objects.get_or_create(
+            name=event["Ort"],
+            address=event["Adresse"],
+            postalCode=event["Postleitzahl"],
+            city=event["Stadt"],
+        )
+        Event.objects.get_or_create(
+            title=event["Name"],
+           description=event["Beschreibung"],
+            startDate=event["Beginn"], 
+            endDate=event["Ende"],
+            link=event["Link"],
+            location=locationObj,
+            createdBy=User.objects.get(username="Scraper"),
+        )
+    return HttpResponse(status=200)
