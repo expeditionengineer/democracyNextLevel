@@ -18,18 +18,20 @@ from django.urls import path, include
 from django.contrib import admin
 from django.urls import path
 
-from events.views import UserEventList
-from iotManager.views import IotDeviceAPI
+from events.views import UserEventList, get_published_events
+from iotManager.views import IotDeviceAPI, execute_scraper
 
 # from content.views import ContentAPI
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
-    path("events/", UserEventList.as_view(), name="user-events"),
+    path("events/", UserEventList.as_view(), name="user-evnts"),
+    path("events/published/", get_published_events, name="published_events"),
     path("dj-rest-auth/registration/",
          include("dj_rest_auth.registration.urls")),
     path("iotdevices/", IotDeviceAPI.as_view(), name="iotdevices"),
+    path("/scraper", execute_scraper, name="execute_scraper"),
     path("messages/", include("postman.urls", namespace="postman")),
     # path("contents/", ContentAPI.as_view(), name="contents"),
 ]

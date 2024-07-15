@@ -14,7 +14,7 @@ from .serializers import EventSerializer
 #         fields = "__all__"
 
 
-class UserEventList(generics.ListCreateAPIView):
+class UserEventList(generics.ListCreateAPIView:
     serializer_class = EventSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [TokenAuthentication]
@@ -37,3 +37,7 @@ class UserEventList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(createdBy=self.request.user)
+
+def get_published_events(request):
+    
+    return 

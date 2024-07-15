@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 
 from .models import IotDevice
+from common.models import User
 from events.models import Event
 from .serializers import IotDeviceSerializer
 from .scraper_json import WebScraper
@@ -24,9 +25,19 @@ def execute_scraper(request):
     scraped_events = mierendorfinsel_scraper.events
 
     for event in scraped_events:
-       Event.objects.get_or_create(
+        locationObj = Location.objects.get_or_create(
+            name=event["Ort"],
+            address=event["Adresse"],
+            postalCode=event["Postleitzahl"],
+            city=event["Stadt"],
+        )
+        Event.objects.get_or_create(
             title=event["Name"],
-            description=event["Beschreibung"],
-            startDate=event[""] 
-                
-        ) 
+           description=event["Beschreibung"],
+            startDate=event["Beginn"], 
+            endDate=event["Ende"],
+            link=event["Link"],
+            location=locationObj,
+            createdBy=User.objects.get(username="Scraper"),
+        )
+    return HttpResponse(status=200)
