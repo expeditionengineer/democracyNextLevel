@@ -34,7 +34,7 @@ def execute_scraper(request):
         )
         objWithSameLink = Event.objects.filter(link=event["Link"])
         if len(objWithSameLink) > 0:
-            objWithSameLink[0].update(
+            objWithSameLink.update(
                 title=event["Name"],
                 description=event["Beschreibung"],
                 startDate=event["Beginn"], 
