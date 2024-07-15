@@ -2,6 +2,10 @@
   font-family: "Josefin Sans";
 }
 
+[class|=carousel-control] {
+  z-index: 100 !important;
+}
+
 .carousel-item {
   width: 100vw !important;
   height: 100vh !important;
@@ -45,7 +49,7 @@
   text-align: justify;
   top: 40vh;
   left: 32vw;
-  transform: translateY(-50%);
+  transform: translateY(-30%);
   padding-top: 13vh;
   padding-left: 9vw;
   padding-right: 5vw;
