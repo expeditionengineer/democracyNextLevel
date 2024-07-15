@@ -3,8 +3,8 @@ from rest_framework.authentication import TokenAuthentication
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 import django_filters
-
-from .models import Event
+from django.http import HttpResponse, JsonResponse
+from .models import Event, Location
 from .serializers import EventSerializer
 
 # class EventFilter(django_filters.FilterSet):
@@ -40,6 +40,6 @@ class UserEventList(generics.ListCreateAPIView):
 
 def get_published_events(request):
     published_events = Event.objects.filter(published=1)
-    serializer = EventSerializer(published_events)
-    return serializer.data
+    serializer = EventSerializer(published_events, many=True)
+    return JsonResponse(serializer.data, safe=False)
 

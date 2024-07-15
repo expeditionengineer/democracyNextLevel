@@ -31,7 +31,7 @@ urlpatterns = [
     path("dj-rest-auth/registration/",
          include("dj_rest_auth.registration.urls")),
     path("iotdevices/", IotDeviceAPI.as_view(), name="iotdevices"),
-    path("/scraper", execute_scraper, name="execute_scraper"),
+    path("scraper", execute_scraper, name="execute_scraper"),
     path("messages/", include("postman.urls", namespace="postman")),
     # path("contents/", ContentAPI.as_view(), name="contents"),
 ]

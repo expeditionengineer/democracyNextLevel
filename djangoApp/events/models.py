@@ -39,7 +39,7 @@ class Event(models.Model):
                                      blank=True,
                                      null=True)
     endDate = models.DateTimeField(default=datetime.now, blank=True, null=True)
-
+    
     location = models.ForeignKey(Location,
                                  on_delete=models.CASCADE,
                                  blank=True,

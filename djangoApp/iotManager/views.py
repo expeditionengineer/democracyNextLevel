@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from rest_framework import generics
+from django.http import HttpResponse
 
 from .models import IotDevice
 from common.models import User
-from events.models import Event
+from events.models import Event, Location
 from .serializers import IotDeviceSerializer
 from .scraper_json import WebScraper
 
@@ -31,13 +32,26 @@ def execute_scraper(request):
             postalCode=event["Postleitzahl"],
             city=event["Stadt"],
         )
-        Event.objects.get_or_create(
-            title=event["Name"],
-           description=event["Beschreibung"],
-            startDate=event["Beginn"], 
-            endDate=event["Ende"],
-            link=event["Link"],
-            location=locationObj,
-            createdBy=User.objects.get(username="Scraper"),
-        )
+        objWithSameLink = Event.objects.filter(link=event["Link"])
+        if len(objWithSameLink) > 0:
+            objWithSameLink[0].update(
+                title=event["Name"],
+                description=event["Beschreibung"],
+                startDate=event["Beginn"], 
+                endDate=event["Ende"],
+                link=event["Link"],
+                location=locationObj[0],
+                createdBy=User.objects.get(username="Scraper"),  
+            )
+        else:
+            obj, created = Event.objects.get_or_create(
+                title=event["Name"],
+               description=event["Beschreibung"],
+                startDate=event["Beginn"], 
+                endDate=event["Ende"],
+                link=event["Link"],
+                location=locationObj[0],
+                createdBy=User.objects.get(username="Scraper"),
+                published=1,
+            )
     return HttpResponse(status=200)
