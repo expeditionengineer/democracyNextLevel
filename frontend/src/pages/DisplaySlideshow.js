@@ -1,47 +1,8 @@
+import { useState, useEffect } from 'react';
 import SlideTemplate from '../components/SlideTemplate';
 import Carousel from 'react-bootstrap/Carousel';
-
-const exempleSlides = [
-  {
-    "id": 0,
-    "title": "Clean Up",
-    "description": "Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber.",
-    "author": "Can",
-    "startDate": "2024-07-15 12:00",
-    "endDate": "2024-07-15 14:00",
-    "repeated": "jede Woche",
-    "createdAt": "2024-07-14",
-    "organizer": "Dorfwerkstatt",
-    "published": "2024-07-14",
-    "updatedAt": ""
-  },
-  {
-    "id": 1,
-    "title": "Kindermalen",
-    "description": "Buntes Malen mit Wasserfarben und Stiften",
-    "author": "Minnie Mouse",
-    "startDate": "2024-10-10 10:00",
-    "endDate": "2024-10-10 14:30",
-    "repeated": false,
-    "createdAt": "2024-07-12",
-    "organizer": "Gottfriedkeller Gymnasium",
-    "published": "2024-07-12",
-    "updatedAt": ""
-  },
-  {
-    "id": 2,
-    "title": "Clean Up",
-    "description": "Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber. Wir machen die Mierendorff-Straße sauber.",
-    "author": "Can",
-    "startDate": "2024-07-15 12:00",
-    "endDate": "2024-07-15 14:00",
-    "repeated": "jede Woche",
-    "createdAt": "2024-07-14",
-    "organizer": "Dorfwerkstatt",
-    "published": "2024-07-14",
-    "updatedAt": ""
-  },
-];
+import exampleSlides from '../data/exampleSlidesData';
+import {fetchPublishedEvents} from '../api';
 
 function calculateSlideInterval(slide) {
   const textLength = Object.values(slide).reduce((len, txt) =>
@@ -50,8 +11,8 @@ function calculateSlideInterval(slide) {
   return textLength * 21 / 293 * 1000;
 }
 
-function DisplaySlideshow() {
-  const slides = exempleSlides.map(slide => (
+function createSlides(slidesData) {
+  return slidesData.map(slide => (
     <Carousel.Item className="carousel-item" interval={calculateSlideInterval(slide)}>
       <SlideTemplate
         slide={slide}
@@ -60,10 +21,30 @@ function DisplaySlideshow() {
       </Carousel.Caption>
     </Carousel.Item>
   ));
+}
+
+function DisplaySlideshow() {
+  const [slides, setSlides] = useState(null);
+  const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    setSlides(null);
+    fetchPublishedEvents()
+    .then(slidesData => {
+      setSlides(createSlides(slidesData));
+    })
+    .catch(
+      err => setError(err.message)
+    );
+    return () => {
+      setSlides(null);
+    };
+  });
   return (
     <main>
+      {error && <div>Fehler beim herunterladen der Slides</div>}
       <Carousel>
-        {slides}
+        {slides ?? "Lade Slides herunter..."}
       </Carousel>
     </main>
   );

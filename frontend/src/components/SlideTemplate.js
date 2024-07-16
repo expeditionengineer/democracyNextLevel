@@ -26,10 +26,9 @@ const formatDate = (datestring) => {
 
 const minmax = (min, x, max) => Math.max(Math.min(x, max), min);
 
-const calculateFontSize = (textLength) => {
-  const minFontSize = 1;
-  const maxFontSize = 5;
-  const scaledFontSize = Math.sqrt(550 / textLength) * 1.75
+const calculateFontSize = (textLength, referenceSize,
+                           minFontSize = 1, maxFontSize = 5) => {
+  const scaledFontSize = Math.sqrt(550 / textLength) * referenceSize
   return minmax(minFontSize, scaledFontSize, maxFontSize)
 };
 
@@ -37,7 +36,11 @@ const SlideTemplate = ({slide}) => {
   return (
     <>
       <header>
-        <h1><CalendarEvent className="me-3"/>{slide.title}</h1>
+        <h1
+          style={{
+            fontSize: `${calculateFontSize(slide.description.length, 3)}vh`
+          }}
+        ><CalendarEvent className="m-2"/>{slide.title}</h1>
       </header>
       {/* Neuigkeiten: newspaper
       Veranstaltungen: calendar-event
@@ -45,12 +48,12 @@ const SlideTemplate = ({slide}) => {
       Akteure: people-fill */}
       <p className="qr-code">
         <img src={qrcode} alt="Beispiel QR-Code" />
-        Erfahre mehr
+        Erfahre mehr!
       </p>
       <p
         className="beschreibungstext"
         style={{
-          "font-size": `${calculateFontSize(slide.description.length)}vh`
+          fontSize: `${calculateFontSize(slide.description.length, 1.75)}vh`
         }}
       > {slide.description}
         <p className="autor">
