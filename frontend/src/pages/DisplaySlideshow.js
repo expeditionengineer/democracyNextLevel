@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 import SlideTemplate from '../components/SlideTemplate';
 import Carousel from 'react-bootstrap/Carousel';
 import exampleSlides from '../data/exampleSlidesData';
+import {fetchPublishedEvents} from '../api';
 
 function calculateSlideInterval(slide) {
   const textLength = Object.values(slide).reduce((len, txt) =>
@@ -9,8 +11,8 @@ function calculateSlideInterval(slide) {
   return textLength * 21 / 293 * 1000;
 }
 
-function DisplaySlideshow() {
-  const slides = exampleSlides.map(slide => (
+function createSlides(slidesData) {
+  return slidesData.map(slide => (
     <Carousel.Item className="carousel-item" interval={calculateSlideInterval(slide)}>
       <SlideTemplate
         slide={slide}
@@ -19,10 +21,30 @@ function DisplaySlideshow() {
       </Carousel.Caption>
     </Carousel.Item>
   ));
+}
+
+function DisplaySlideshow() {
+  const [slides, setSlides] = useState(null);
+  const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    setSlides(null);
+    fetchPublishedEvents()
+    .then(slidesData => {
+      setSlides(createSlides(slidesData));
+    })
+    .catch(
+      err => setError(err.message)
+    );
+    return () => {
+      setSlides(null);
+    };
+  });
   return (
     <main>
+      {error && <div>Fehler beim herunterladen der Slides</div>}
       <Carousel>
-        {slides}
+        {slides ?? "Lade Slides herunter..."}
       </Carousel>
     </main>
   );
