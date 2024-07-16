@@ -1,8 +1,9 @@
+import parse from 'html-react-parser';
+import QRCode from 'react-qr-code';
 import './SlideTemplate.css';
 import { CalendarEvent } from 'react-bootstrap-icons';
 import logo from '../graphics/DNL_Logo.png';
-import qrcode from '../graphics/QR-Code.png';
-import parse from 'html-react-parser';
+
 
 const formatDateTime = (datestring) => {
   const options = {
@@ -48,7 +49,10 @@ const SlideTemplate = ({slide}) => {
       Projekte: diagram-3
       Akteure: people-fill */}
       <p className="qr-code">
-        <img src={qrcode} alt="Beispiel QR-Code" />
+        <QRCode
+          value={slide.link}
+          style={{backgroundColor: "white"}}
+        />
         Erfahre mehr!
       </p>
       <p
@@ -58,11 +62,11 @@ const SlideTemplate = ({slide}) => {
         }}
       > {parse(slide.description)}
         <p className="autor">
-          Autor: {slide.author}, Datum: {formatDate(slide.createdAt)}
+          Autor: {slide.createdBy.username}, Datum: {formatDate(slide.createdAt)}
         </p>
       </p>
       <p className="daten"> 
-        <strong>Wo?</strong><br />
+        <strong>Wo?</strong><br /> {slide.location.name}
         <br />
         <strong>Wann?</strong> {formatDateTime(slide.startDate)}<br />
         bis {formatDateTime(slide.endDate)}<br/>
