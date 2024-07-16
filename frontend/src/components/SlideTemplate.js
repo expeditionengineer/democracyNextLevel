@@ -2,6 +2,7 @@ import './SlideTemplate.css';
 import { CalendarEvent } from 'react-bootstrap-icons';
 import logo from '../graphics/DNL_Logo.png';
 import qrcode from '../graphics/QR-Code.png';
+import parse from 'html-react-parser';
 
 const formatDateTime = (datestring) => {
   const options = {
@@ -55,7 +56,7 @@ const SlideTemplate = ({slide}) => {
         style={{
           fontSize: `${calculateFontSize(slide.description.length, 1.75)}vh`
         }}
-      > {slide.description}
+      > {parse(slide.description)}
         <p className="autor">
           Autor: {slide.author}, Datum: {formatDate(slide.createdAt)}
         </p>
