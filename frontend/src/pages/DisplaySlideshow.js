@@ -24,22 +24,24 @@ function createSlides(slidesData) {
 }
 
 function DisplaySlideshow() {
+  const [loadedData, setLoadedData] = useState(false);
   const [slides, setSlides] = useState(null);
   const [error, setError] = useState(null);
   
   useEffect(() => {
-    setSlides(null);
     fetchPublishedEvents()
     .then(slidesData => {
       setSlides(createSlides(slidesData));
     })
     .catch(
-      err => setError(err.message)
+      err => {
+        setError(err.message);
+        setLoadedData(false);
+      }
     );
     return () => {
-      setSlides(null);
     };
-  });
+  }, [loadedData]);
   return (
     <main>
       {error && <div>Fehler beim herunterladen der Slides</div>}
