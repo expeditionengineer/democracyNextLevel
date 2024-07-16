@@ -45,5 +45,7 @@ services:
         container_name: frontend
         volumes:
             - ${PWD}/frontend:/app
+            - "node_modules:/app/node_modules"
 volumes:
     pgdata:
+    node_modules:
