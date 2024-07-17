@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
-import SlideTemplate from '../components/SlideTemplate';
 import Carousel from 'react-bootstrap/Carousel';
-import exampleSlides from '../data/exampleSlidesData';
 import {fetchPublishedEvents} from '../api';
+import SlideTemplate from '../components/SlideTemplate';
+
+function sanitizeString(str) {
+  return str.replace(/(<([^>]+)>)/gi, "")
+}
 
 function calculateSlideInterval(slide) {
   const textLength = Object.values(slide).reduce((len, txt) =>
-    len + (typeof(txt) == "string" ? txt.length : 0),
+    len + (typeof(txt) == "string" ? sanitizeString(txt).length : 0),
   0)
-  return textLength * 21 / 293 * 1000;
+  return textLength * 20 / 293 * 1000;
 }
 
 function createSlides(slidesData) {
