@@ -36,6 +36,7 @@ class WebScraper:
 
                 for event in json_data.get("events", []):
                     venue = event.get("venue", {})
+                    organizer = event.get("organizer", [])[0] if len(event.get("organizer", [])) > 0 else {}
                     start_date = event.get("start_date", "")
                     event_info = {
                         "Name": event.get("title", ""),
@@ -44,11 +45,14 @@ class WebScraper:
                         "Beginn": event.get("start_date", ""),
                         "Ende": event.get("end_date", ""),
                         "Beschreibung": event.get("description", ""),
-                        "Ort": venue.get("venue", ""),
-                        "Adresse": venue.get("address", ""),
-                        "Postleitzahl": venue.get("zip", ""),
-                        "Stadt": venue.get("province", ""),
-                        "Modified": event.get("modified", "")
+                        "Ort": venue.get("venue", "") if isinstance(venue, dict) else "",
+                        "Adresse": venue.get("address", "") if isinstance(venue, dict) else "",
+                        "Postleitzahl": venue.get("zip", "") if isinstance(venue, dict) else "",
+                        "Stadt": venue.get("province", "") if isinstance(venue, dict) else "",
+                        "Modified": event.get("modified", ""),
+                        "Organisator.Name": organizer.get("organizer", ""),
+                        "Organisator.Telefon": organizer.get("phone", ""),
+                        "Organisator.Email": organizer.get("email", ""),
                     }
                     self.events.append(event_info)
 
