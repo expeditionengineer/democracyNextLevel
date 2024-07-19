@@ -2,7 +2,7 @@ from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.contrib.auth.models import Group
 
-from .models import Event, Location
+from .models import Event, Location, Organizer
 
 class UserSerializer(serializers.Serializer):
     # email = serializers.EmailField()
@@ -14,10 +14,17 @@ class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = '__all__'
+        
+class OrganizerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Organizer
+        fields = '__all__'
 
 class EventSerializer(serializers.ModelSerializer):
     createdBy = UserSerializer()
     location = LocationSerializer()
+    organizer = OrganizerSerializer(read_only=True, many=True)
     class Meta:
         model = Event
         fields = '__all__'
