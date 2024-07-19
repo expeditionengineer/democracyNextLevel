@@ -73,7 +73,7 @@ const SlideTemplate = ({slide}) => {
         <br />
         <strong>Wann?</strong> {formatDateTime(slide.startDate)} bis<br />
         {formatDateTime(slide.endDate)}<br/>
-        <strong>Wer?</strong> {slide.organizer}<br />
+        <strong>Wer?</strong> {slide.organizer.map(org => org.name).join(", ")}<br />
       </p>
       <img src={logo} alt="DNL Logo" />
     </>
