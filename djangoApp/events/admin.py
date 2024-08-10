@@ -27,11 +27,11 @@ class EventAdmin(admin.ModelAdmin):
             return True
         return obj.createdBy == request.user
 
-    def has_view_permission(self, request, obj=None):
-        if obj is None:
-            return True
-        return obj.createdBy == request.use
-
+    # def has_view_permission(self, request, obj=None):
+    #     if obj is None:
+    #         return True
+    #     return obj.createdBy == request.use
+    #
     def has_add_permission(self, request):
         return True
 
