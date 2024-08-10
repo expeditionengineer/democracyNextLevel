@@ -21,7 +21,7 @@ from django.urls import path
 
 from events.views import UserEventList, get_published_events
 from iotManager.views import IotDeviceAPI, execute_scraper
-
+from common.views import *
 # from content.views import ContentAPI
 
 urlpatterns = [
@@ -34,5 +34,10 @@ urlpatterns = [
     path("iotdevices/", IotDeviceAPI.as_view(), name="iotdevices"),
     path("scraper", execute_scraper, name="execute_scraper"),
     path("messages/", include("postman.urls", namespace="postman")),
+    path("area-of-interest/", ArearOfInterestView.as_view(), name="areaOfInterest"),
+    path("content-categories/",ContentCategoryView.as_view(), name="contentCategory"),
+    path("media-categories/", MediaCategoryView.as_view(), name="mediaCategory"),
+    path("agents/", AgentsView.as_view(), name="agents"),
+
     # path("contents/", ContentAPI.as_view(), name="contents"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
