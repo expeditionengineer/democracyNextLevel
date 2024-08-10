@@ -104,6 +104,8 @@ CORS_ORIGIN_WHITELIST = [
     "http://127.0.0.1:3000",
     "http://localhost:3000",
 ]
+# CORS_ORIGIN_ALLOW_ALL = True for test cases in the same network
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

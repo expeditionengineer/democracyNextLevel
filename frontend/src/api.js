@@ -11,7 +11,9 @@ async function fetchData(url, request) {
 }
 
 export async function fetchPublishedEvents() {
-  const url = "http://localhost:8000/events/published/";
+  const hostname = window.location.hostname;
+  const url = `http://${hostname}:8000/events/published/`;
+  console.log(url);
   const req = {
     headers: {
       "Content-Type": "application/json"
