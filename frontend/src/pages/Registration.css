@@ -1,0 +1,8 @@
+main > form {
+  counter-reset: reg-step;
+}
+
+main > form > * > label::before {
+  counter-increment: reg-step;
+  content: counter(reg-step) '. ';
+}
