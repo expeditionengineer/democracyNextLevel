@@ -67,5 +67,8 @@ class Event(models.Model):
 
     published = models.IntegerField(default=False)
 
+    showOnlyImage = models.BooleanField(default=False)
+
+
     def __str__(self):
         return self.title
