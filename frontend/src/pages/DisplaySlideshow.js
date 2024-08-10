@@ -48,7 +48,7 @@ function DisplaySlideshow() {
   return (
     <main>
       {error && <div>Fehler beim herunterladen der Slides</div>}
-      <Carousel>
+      <Carousel pause={false}>
         {slides ?? "Lade Slides herunter..."}
       </Carousel>
     </main>
