@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Link, Route, Routes, Navigate } from 'react-ro
 import Layout from './pages/Layout';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Registration from './pages/Registration';
 import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import CreateEvent from './CreateEvent';
@@ -29,7 +30,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={!token ? <Login /> : <Navigate to="/dashboard" replace />} />
-          <Route path="/login" element={<Login />} /> 
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-event" element={<CreateEvent />} />
