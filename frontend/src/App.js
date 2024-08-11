@@ -7,6 +7,7 @@ import Registration from './pages/Registration';
 import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import CreateEvent from './CreateEvent';
+import CreateContent from './pages/CreateContent';
 import IotDeviceMap from './iotDeviceLocation';
 import NoPage from "./pages/NoPage";
 import News from './pages/News';
@@ -35,6 +36,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-event" element={<CreateEvent />} />
+          <Route path="/create-content" element={<CreateContent />} />
           <Route path="/iotdevices" element={<IotDeviceMap />} />
           <Route path="/news" element={<News />} />
           <Route path="*" element={<NoPage />} />
