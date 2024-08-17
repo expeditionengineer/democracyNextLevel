@@ -43,3 +43,17 @@ export async function postRegistration(dataObj) {
     console.error(`failed to extract json: ${error.message}`)
   })
 }
+
+export async function fetchCategories(endpoint) {
+  const url = `http://${window.location.hstname}:8000/${endpoint}`
+  const req = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }
+  return fetchData(url, req)
+  .then(res => res.json())
+  .catch(error => {
+    console.error(`failed to extract json: ${error.message}`)
+  })
+}

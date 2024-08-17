@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import './Registration.css';
-import {postRegistration} from '../api';
+import {postRegistration, fetchCategories} from '../api';
 
 function map(list, func) {
   const result = [];
@@ -45,7 +45,9 @@ function MediaCategories({device, setDevice}) {
 }
 
 function Interests({interests, setInterests}) {
+  var requestForInterest = fetchCategories("area-of-interest/") 
   const allInterests = "Städtebauliche Entwicklung, Lokale Betriebe und Dienstleistungen, Klima & Energie, Verkehr, Grün- & Freiflächen, Interkulturelles, Bildung, soziale Vereine, Mode und Schmuck, Jugend, Partizipation, Familien, Tiere und Natur, Kunst & Kultur, Gesundheit, Freizeit & Erholung, Bewegung & Gesundheit, Nachhaltigkeit, solidarische Landwirtschaft, Gemeinsames Kochen, Gastronomie";
+  
   return (
     <Form.Group className="mb-3">
       <Form.Label>Wähle Interessensschwerpunkte aus, zu denen Du Inhalte erstellen möchtest. (Zum Hinzufügen eines weiteren Punktes zur Auswahl, <kbd>Strg</kbd> beim Auswählen gedrückt halten)</Form.Label>
@@ -133,12 +135,14 @@ function Registration() {
       return;
     }
     const dataObj = {
-      role: role,
+      roles: role,
       username: username,
       password1: password1,
       password2: password2,
-      name: name,
+      first_name: first_name,
+      last_name: last_name,
       street: street,
+      street_number: street_number,
       zip: zip,
       city: city,
       email: email,
