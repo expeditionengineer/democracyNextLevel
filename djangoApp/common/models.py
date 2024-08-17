@@ -39,18 +39,25 @@ class AreaOfInterest(models.Model):
         return self.name
 
 
+class Role(models.Model):
+    """
+
+    """
+    role = models.CharField(max_length=200, blank=True, null=True)
+
+
 class User(AbstractUser):
     """Modification of the Django default user model."""
 
     # General info about the user: address and contact info
     street = models.CharField(max_length=300, blank=True, null=True)
-    street_number = models.IntegerField(blank=True, null=True)
+    street_number = models.CharField(max_length=20, blank=True, null=True)
     zip_code = models.IntegerField(blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     profile_picture = models.ImageField(blank=True, null=True)
     description = models.CharField(max_length=155)
-
+    country = models.CharField(max_length=200, blank=True, null=True)
     # only relevant for creator, voter, moderator
     content_categories = models.ManyToManyField(ContentCategory,
                                                 blank=True,
@@ -64,3 +71,4 @@ class User(AbstractUser):
                                               blank=True,
                                               null=True)
     ai_agent = models.ManyToManyField(Agent, blank=True, null=True)
+    roles = models.ManyToManyField(Role, blank=True, null=True)

@@ -123,11 +123,12 @@ case $command in
         ;;
     "migrate")
         echo "Running Django migrations..."
-        docker exec -it $container_id python manage.py migrate
+        docker exec -it $container_id python djangoApp/manage.py migrate
         ;;
     "makemigrations")
         echo "Creating Django migrations..."
-        docker exec -it $container_id python manage.py makemigrations
+        
+        docker exec -it $container_id python djangoApp/manage.py makemigrations
         ;;
     "shell")
         echo "Opening Django Shell..."

@@ -53,3 +53,12 @@ class AgentsView(APIView):
 
         return Response(serializer.data) 
 
+class RolesView(APIView):
+    def get(self,request):
+        """View function when get request is sent
+
+        """
+        allAgentObjs = Role.objects.all()
+        serializer = RolesSerializer(allAgentObjs, many=True)
+
+        return Response(serializer.data)
