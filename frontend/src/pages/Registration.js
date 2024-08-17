@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import './Registration.css';
+import {postRegistration} from '../api';
 
 function map(list, func) {
   const result = [];
@@ -57,9 +59,14 @@ function Interests({interests, setInterests}) {
 }
 
 function Registration() {
-  const [error, setError] = useState(null);
+  const [status, setStatus] = useState(null); // for server response
+  const [validated, setValidated] = useState(false);
+  
   const [role, setRole] = useState('Creator');
   const [username, setUsername] = useState('');
+  const [password1, setPassword1] = useState('');
+  const [password2, setPassword2] = useState('');
+  const [name, setName] = useState('');
   const [street, setStreet] = useState('');
   const [zip, setZip] = useState('');
   const [city, setCity] = useState('');
@@ -74,41 +81,106 @@ function Registration() {
   const [interests, setInterests] = useState({});
   const [motivation, setMotivation] = useState('');
   const [bots, setBots] = useState([]);
+  
+  const [roleFeedback, setRoleFeedback] = useState('Creator');
+  const [usernameFeedback, setUsernameFeedback] = useState('');
+  const [password1Feedback, setPassword1Feedback] = useState('');
+  const [password2Feedback, setPassword2Feedback] = useState('');
+  const [nameFeedback, setNameFeedback] = useState('');
+  const [streetFeedback, setStreetFeedback] = useState('');
+  const [zipFeedback, setZipFeedback] = useState('');
+  const [cityFeedback, setCityFeedback] = useState('');
+  const [emailFeedback, setEmailFeedback] = useState('');
+  const [phoneFeedback, setPhoneFeedback] = useState('');
+  const [selectedNewsFeedback, setSelectedNewsFeedback] = useState(false);
+  const [selectedEventsFeedback, setSelectedEventsFeedback] = useState(false);
+  const [selectedProjectsFeedback, setSelectedProjectsFeedback] = useState(false);
+  const [selectedActorsFeedback, setSelectedActorsFeedback] = useState(false);
+  const [deviceFeedback, setDeviceFeedback] = useState('');
+  const [pictureFeedback, setPictureFeedback] = useState('');
+  const [interestsFeedback, setInterestsFeedback] = useState({});
+  const [motivationFeedback, setMotivationFeedback] = useState('');
+  const [botsFeedback, setBotsFeedback] = useState([]);
+  
   const steps = [
     {}, {}, {}, {}, {},
     {
       "Creator": <ContentChannels
-        props={{
-          selectedNews, selectedEvents, selectedProjects, selectedActors,
-          setSelectedNews, setSelectedEvents, setSelectedProjects,
-          setSelectedActors
-        }}
+        selectedNews={selectedNews}
+        selectedEvents={selectedEvents}
+        selectedProjects={selectedProjects}
+        selectedActors={selectedActors}
+        setSelectedNews={i => setSelectedNews(i)}
+        setSelectedEvents={i => setSelectedEvents(i)}
+        setSelectedProjects={i => setSelectedProjects(i)}
+        setSelectedActors={i => setSelectedActors(i)}
       />,
       "Messenger": <MediaCategories />
     }, {},
     {
       "Creator": <Interests
-        props={{
-          interests, setInterests
-        }}
+        interests={interests}
+        setInterests={i => setInterests(i)}
       />,
       "Messenger": null
     }
   ];
+  
+  const handleRegistration = e => {
+    e.preventDefault();
+    setValidated(true);
+    if (e.currentTarget.checkValidity() === false) {
+      return;
+    }
+    const dataObj = {
+      role: role,
+      username: username,
+      password1: password1,
+      password2: password2,
+      name: name,
+      street: street,
+      zip: zip,
+      city: city,
+      email: email,
+      phone: phone,
+      selectedNews: selectedNews,
+      selectedEvents: selectedEvents,
+      selectedProjects: selectedProjects,
+      selectedActors: selectedActors,
+      device: device,
+      picture: picture,
+      interests: interests,
+      motivation: motivation,
+      bots: bots
+    };
+    postRegistration(dataObj)
+    .then(res => {
+      setStatus(res);
+    })
+    .catch(
+      err => {
+        setStatus(err);
+      }
+    );
+  };
+  
   return (
     <main style={{width: "300px"}}>
-      <Form onSubmit={null}>
+      <Form onSubmit={handleRegistration} noValidate validated={validated}>
         <Form.Group className="mb-3">
           <Form.Label>Wähle die Rolle, auf die Du Dich bewerben willst</Form.Label>
-          <Form.Select value={role} onChange={(e) => setRole(e.target.value)}>
+          <Form.Select value={role} onChange={(e) => {setRole(e.target.value); setValidated(false)}}>
             {"Creator, Messenger".split(", ").map(i => (
               <option>{i}</option>
             ))}
           </Form.Select>
+          <Form.Control.Feedback type="invalid">
+            {roleFeedback}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Gib Deinen Namen ein.</Form.Label>
-          <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Gib Deine Wohnadresse ein.</Form.Label>
@@ -118,7 +190,12 @@ function Registration() {
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Gib Deine Email-Adresse ein.</Form.Label>
-          <Form.Control type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Form.Control
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Gib Deine Telefon-Nummer ein.</Form.Label>
@@ -142,7 +219,33 @@ function Registration() {
             ))}
           </Form.Select>
         </Form.Group>
-        {error && <div>{error}</div>}
+        <Form.Group className="mb-3">
+          <Form.Label>Gib Deinen Benutzernamen ein.</Form.Label>
+          <Form.Control
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Gib Dein Passwort ein.</Form.Label>
+          <Form.Control
+            type="password"
+            value={password1}
+            placeholder="Passwort"
+            onChange={(e) => setPassword1(e.target.value)}
+            required
+          />
+          <Form.Control
+            type="password"
+            value={password2}
+            placeholder="Passwort bestätigen"
+            onChange={(e) => setPassword2(e.target.value)}
+            required
+          />
+        </Form.Group>
+        {status && <div>{Object.entries(status).map(([key, value]) => (<Alert variant="danger">{key}: {value}</Alert>))}</div>}
         <Button variant="primary" type="submit">Registrieren</Button>
       </Form>
     </main>
