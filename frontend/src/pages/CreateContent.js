@@ -118,7 +118,7 @@ function Cicle({cicle, setCicle}) {
 function ColorScheme({colorScheme, setColorScheme}) {
   return (
     <Form.Group className="mb-3">
-      <Form.Label>Farbschema zur Ansicht für andere Nutzer</Form.Label>
+      <Form.Label>Farbgestaltung</Form.Label>
       <Form.Control type="color" value={colorScheme} onChange={(e) => setColorScheme(e.target.value)} />
     </Form.Group>
   )
@@ -127,7 +127,7 @@ function ColorScheme({colorScheme, setColorScheme}) {
 function Image({image, setImage}) {
   return (
     <Form.Group className="mb-3">
-      <Form.Label>Farbschema zur Ansicht für andere Nutzer</Form.Label>
+      <Form.Label>Bild</Form.Label>
       <Form.Control type="file" accept="image/*" value={image} onChange={(e) => setImage(e.target.value)} />
     </Form.Group>
   )
@@ -138,6 +138,15 @@ function Tag({tag, setTag}) {
     <Form.Group className="mb-3">
       <Form.Label>Hashtags</Form.Label>
       <Form.Control type="text" value={tag} onChange={(e) => setTag(e.target.value)} />
+    </Form.Group>
+  )
+}
+
+function ShowOnlyImage({showOnlyImage, setShowOnlyImage}) {
+  return (
+    <Form.Group className="mb-3">
+      <Form.Label>Soll im Falle einer Veröffentlichung auf den Democracy-Displays im Kiez nur das Bild als Folie angezeigt werden? Andernfalls werden auch die übrigen Felder wie Titel, Beschreibung etc. angezeigt.</Form.Label>
+      <Form.Switch label="Nur Bild anzeigen" value={showOnlyImage} onChange={(e) => setShowOnlyImage(e.target.value)} />
     </Form.Group>
   )
 }
@@ -158,7 +167,42 @@ function CreateContent() {
   const [colorScheme, setColorScheme] = useState('');
   const [image, setImage] = useState('');
   const [tag, setTag] = useState('');
+  const [showOnlyImage, setShowOnlyImage] = useState('');
   const contentCategoryFields = {
+    "Neuigkeiten": [
+      <Title
+        title={title}
+        setTitle={i => setTitle(i)}
+      />,
+      <Description
+        description={description}
+        setDescription={i => setDescription(i)}
+      />,
+      <LinksToCards
+        links={linksToCards}
+        setLinks={i => setLinksToCards(i)}
+      />,
+      <LinksToUsers
+        links={linksToUsers}
+        setLinks={i => setLinksToUsers(i)}
+      />,
+      <Source
+        source={source}
+        setSource={i => setSource(i)}
+      />,
+      <ColorScheme
+        cicle={colorScheme}
+        setColorScheme={i => setColorScheme(i)}
+      />,
+      <Image
+        image={image}
+        setImage={i => setImage(i)}
+      />,
+      <ShowOnlyImage
+        showOnlyImage={showOnlyImage}
+        setShowOnlyImage={i => setShowOnlyImage(i)}
+      />,
+    ],
     "Veranstaltungen": [
       <Title
         title={title}
@@ -208,12 +252,95 @@ function CreateContent() {
         image={image}
         setImage={i => setImage(i)}
       />,
-      <Tag
-        tag={tag}
-        setTag={i => setTag(i)}
+      <ShowOnlyImage
+        showOnlyImage={showOnlyImage}
+        setShowOnlyImage={i => setShowOnlyImage(i)}
       />,
     ],
-    
+    "Projekte": [
+      <Title
+        title={title}
+        setTitle={i => setTitle(i)}
+      />,
+      <Description
+        description={description}
+        setDescription={i => setDescription(i)}
+      />,
+      <Location
+        location={location}
+        setLocation={i => setLocation(i)}
+      />,
+      <LinksToCards
+        links={linksToCards}
+        setLinks={i => setLinksToCards(i)}
+      />,
+      <LinksToUsers
+        links={linksToUsers}
+        setLinks={i => setLinksToUsers(i)}
+      />,
+      <Source
+        source={source}
+        setSource={i => setSource(i)}
+      />,
+      <Organizer
+        organizer={organizer}
+        setOrganizer={i => setOrganizer(i)}
+      />,
+      <ColorScheme
+        cicle={colorScheme}
+        setColorScheme={i => setColorScheme(i)}
+      />,
+      <Image
+        image={image}
+        setImage={i => setImage(i)}
+      />,
+      <ShowOnlyImage
+        showOnlyImage={showOnlyImage}
+        setShowOnlyImage={i => setShowOnlyImage(i)}
+      />,
+    ],
+    "Akteure": [
+      <Title
+        title={title}
+        setTitle={i => setTitle(i)}
+      />,
+      <Description
+        description={description}
+        setDescription={i => setDescription(i)}
+      />,
+      <Location
+        location={location}
+        setLocation={i => setLocation(i)}
+      />,
+      <LinksToCards
+        links={linksToCards}
+        setLinks={i => setLinksToCards(i)}
+      />,
+      <LinksToUsers
+        links={linksToUsers}
+        setLinks={i => setLinksToUsers(i)}
+      />,
+      <Source
+        source={source}
+        setSource={i => setSource(i)}
+      />,
+      <Organizer
+        organizer={organizer}
+        setOrganizer={i => setOrganizer(i)}
+      />,
+      <ColorScheme
+        cicle={colorScheme}
+        setColorScheme={i => setColorScheme(i)}
+      />,
+      <Image
+        image={image}
+        setImage={i => setImage(i)}
+      />,
+      <ShowOnlyImage
+        showOnlyImage={showOnlyImage}
+        setShowOnlyImage={i => setShowOnlyImage(i)}
+      />,
+    ],
   };
   return (
     <main style={{width: "300px"}}>
