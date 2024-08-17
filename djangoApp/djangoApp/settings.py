@@ -95,7 +95,8 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS":
     ("django_filters.rest_framework.DjangoFilterBackend", ),
 }
-REST_AUTH_REGISTER_SERIALIZERS = {
+REST_AUTH = {
+
     "REGISTER_SERIALIZER": "events.serializers.CustomRegisterSerializer",
 }
 ACCOUNT_EMAIL_VERIFICATION = "none"

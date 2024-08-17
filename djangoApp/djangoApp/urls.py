@@ -38,6 +38,6 @@ urlpatterns = [
     path("content-categories/",ContentCategoryView.as_view(), name="contentCategory"),
     path("media-categories/", MediaCategoryView.as_view(), name="mediaCategory"),
     path("agents/", AgentsView.as_view(), name="agents"),
-
+    path("roles/", RolesView.as_view(), name="roles"),
     # path("contents/", ContentAPI.as_view(), name="contents"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
