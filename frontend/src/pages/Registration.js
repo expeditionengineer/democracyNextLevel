@@ -202,7 +202,7 @@ function Registration() {
       <Form onSubmit={handleRegistration} noValidate validated={validated}>
         <Form.Group className="mb-3">
           <Form.Label>Wähle die Rolle, auf die Du Dich bewerben willst</Form.Label>
-          <Form.Select value={role} onChange={(e) => {setRole(e.target.value); setValidated(false)}}>
+          <Form.Select value={role} onChange={(e) => {setRole(e.target.roleId); setValidated(false)}}>
             {roleCategories.map(i => (
               <option roleId={i.id}>{i.role}</option>
             ))}
@@ -248,7 +248,7 @@ function Registration() {
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Welchen digitalen Agenten möchten Sie integrieren?</Form.Label>
-          <Form.Select multiple={true}>
+          <Form.Select multiple={true} onchange={(e) => setAgents(e.target.agentId)}>
             {agentCategories.map(i => (
               <option agentId={i.id}>{i.name}</option>
             ))}

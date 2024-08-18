@@ -55,13 +55,14 @@ class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
     roles = serializers.PrimaryKeyRelatedField(
         queryset=Role.objects.all(), many=True, required=False, allow_null=True
     )
+    motivation = serializers.CharField(max_length=1000, required=False)
     class Meta:
         model = User
         fields = (
         'username', 'email', 'password1', "password2", "street", 'street_number', 'zip_code', 'city',
         'phone_number', 'profile_picture', 'description', 'country', 
         'content_categories', 'media_categories', 'area_of_interest', 
-        'ai_agent', 'roles', "first_name", "last_name",
+        'ai_agent', 'roles', "first_name", "last_name", "motivation",
         )
 
 # Override get_cleaned_data of RegisterSerializer
@@ -87,6 +88,7 @@ class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
         'area_of_interest': self.validated_data.get('area_of_interest', []),
         'ai_agent': self.validated_data.get('ai_agent', []),
         'roles': self.validated_data.get('roles', []),
+        "motivation": self.validated_data.get("motivation", "")
         } 
     def save(self, request):
         user = super().save(request)
@@ -98,6 +100,7 @@ class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
         user.profile_picture = self.validated_data.get('profile_picture', None)
         user.description = self.validated_data['description']
         user.country = self.validated_data.get('country', '')
+        user.motivation = self.validated_data.get("motivation", "")
         user.save()
 
         # Handle ManyToMany fields after the user is saved
