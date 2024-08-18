@@ -45,7 +45,7 @@ export async function postRegistration(dataObj) {
 }
 
 export async function fetchCategories(endpoint) {
-  const url = `http://${window.location.hstname}:8000/${endpoint}`
+  const url = `http://${window.location.hostname}:8000/${endpoint}`
   const req = {
     headers: {
       "Content-Type": "application/json"
