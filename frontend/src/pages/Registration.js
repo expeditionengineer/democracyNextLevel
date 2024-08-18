@@ -19,21 +19,33 @@ function map(list, func) {
 }
 
 function ContentChannels({
-  contentCategories, selectedNews, selectedEvents, selectedProjects, selectedActors,
-  setSelectedNews, setSelectedEvents, setSelectedProjects, setSelectedActors,
+  contentCategories, selectedContents, selectedNews, selectedEvents, selectedProjects, selectedActors,
+  setSelectedNews, setSelectedEvents, setSelectedProjects, setSelectedActors, setSelectedContents
 }) {
  
     return (
     <Form.Group className="mb-3">
       <Form.Label>Wähle die Content-Channels aus, in denen du Inhalte erstellen möchtest.</Form.Label>
-    {
+{
   contentCategories.map((channel, i) => (
     <Form.Switch
       key={i}
-      value={selectedNews}
+      value={channel.name}
       contentId={channel.id}
       label={channel.name}
-      onChange={(e) => setSelectedNews(e.target.value)}
+      onChange={(e) => {
+        const isChecked = e.target.checked;
+        if (isChecked) {
+          setSelectedContents((prevSelectedContents) => [
+            ...prevSelectedContents,
+            channel.id,
+          ]);
+        } else {
+          setSelectedContents((prevSelectedContents) =>
+            prevSelectedContents.filter((id) => id !== channel.id)
+          );
+        }
+      }}
     />
   ))
 }
@@ -95,7 +107,8 @@ function Registration() {
   const [interests, setInterests] = useState({});
   const [motivation, setMotivation] = useState('');
   const [bots, setBots] = useState([]);
-  
+  const [agents, setAgents] = useState([]);
+
   const [roleFeedback, setRoleFeedback] = useState('Creator');
   const [usernameFeedback, setUsernameFeedback] = useState('');
   const [password1Feedback, setPassword1Feedback] = useState('');
@@ -115,7 +128,8 @@ function Registration() {
   const [interestsFeedback, setInterestsFeedback] = useState({});
   const [motivationFeedback, setMotivationFeedback] = useState('');
   const [botsFeedback, setBotsFeedback] = useState([]);
-
+  
+  const [selectedContents, setSelectedContents] = useState([]);
   const [contentCategories, setContentCategories] = useState([]);
     
   fetchCategories("content-categories").then(data => setContentCategories(data))
@@ -137,6 +151,7 @@ function Registration() {
     {
       "Creator": <ContentChannels
         contentCategories={contentCategories}
+        selectedContents={selectedContents}
         selectedNews={selectedNews}
         selectedEvents={selectedEvents}
         selectedProjects={selectedProjects}
@@ -145,6 +160,7 @@ function Registration() {
         setSelectedEvents={i => setSelectedEvents(i)}
         setSelectedProjects={i => setSelectedProjects(i)}
         setSelectedActors={i => setSelectedActors(i)}
+        setSelectedContents={i => setSelectedContents(i)}
       />,
       "Messenger": <MediaCategories mediaCategories={mediaCategories} />
     }, {},
@@ -172,19 +188,20 @@ function Registration() {
       last_name: lastName,
       street: street,
       street_number: streetNumber,
-      zip: zip,
+      postal_code: zip,
       city: city,
       email: email,
-      phone: phone,
+      phone_number: phone,
       selectedNews: selectedNews,
       selectedEvents: selectedEvents,
       selectedProjects: selectedProjects,
       selectedActors: selectedActors,
-      device: device,
-      picture: picture,
-      interests: interests,
+      profile_picture: picture,
+      content_categories: selectedContents,
+      media_categories: device,
+      area_of_interest: interests,
       motivation: motivation,
-      bots: bots
+      ai_agent: agents
     };
     postRegistration(dataObj)
     .then(res => {
