@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -133,18 +133,37 @@ function Registration() {
   const [contentCategories, setContentCategories] = useState([]);
     
   fetchCategories("content-categories").then(data => setContentCategories(data))
+  useEffect(()=> {
+        fetchCategories("content-categories").then(apiResponse => {
+            setContentCategories(apiResponse)
+        })
+  }, [])
   const [mediaCategories, setMediaCategories] = useState([]);
     
-  fetchCategories("media-categories").then(data => setMediaCategories(data)) 
+  useEffect(()=> {
+        fetchCategories("media-categories").then(apiResponse => {
+            setMediaCategories(apiResponse)
+        })
+  }, [])
   const [interestCategories, setInterestCategories] = useState([]);
-  
+  useEffect(()=> {
+        fetchCategories("area-of-interest").then(apiResponse => {
+            setInterestCategories(apiResponse)
+        })
+  }, [])
   
   const [roleCategories, setRoleCategories] = useState([]);
-  fetchCategories("roles").then(data => setRoleCategories(data)); 
-  
+  useEffect(()=> {
+        fetchCategories("roles").then(apiResponse => {
+            setRoleCategories(apiResponse)
+        })
+  }, [])
   const [agentCategories, setAgentCategories] = useState([]);
-  fetchCategories("agents").then(data => setAgentCategories(data)); 
-
+  useEffect(()=> {
+          fetchCategories("agents").then(apiResponse => {
+              setAgentCategories(apiResponse)
+          })
+    }, [])
 
   const steps = [
     {}, {}, {}, {}, {},
@@ -192,15 +211,11 @@ function Registration() {
       city: city,
       email: email,
       phone_number: phone,
-      selectedNews: selectedNews,
-      selectedEvents: selectedEvents,
-      selectedProjects: selectedProjects,
-      selectedActors: selectedActors,
       profile_picture: picture,
       content_categories: selectedContents,
       media_categories: device,
       area_of_interest: interests,
-      motivation: motivation,
+      description: motivation,
       ai_agent: agents
     };
     postRegistration(dataObj)
