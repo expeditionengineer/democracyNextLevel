@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import './Registration.css';
-import {postRegistration} from '../api';
+import {postRegistration, fetchCategories} from '../api';
+
+
+
+
 
 function map(list, func) {
   const result = [];
@@ -15,59 +19,87 @@ function map(list, func) {
 }
 
 function ContentChannels({
-  selectedNews, selectedEvents, selectedProjects, selectedActors,
-  setSelectedNews, setSelectedEvents, setSelectedProjects, setSelectedActors
+  contentCategories, selectedContents, selectedNews, selectedEvents, selectedProjects, selectedActors,
+  setSelectedNews, setSelectedEvents, setSelectedProjects, setSelectedActors, setSelectedContents
 }) {
-  
-  return (
+ 
+    return (
     <Form.Group className="mb-3">
       <Form.Label>Wähle die Content-Channels aus, in denen du Inhalte erstellen möchtest.</Form.Label>
-      <Form.Switch value={selectedNews} label="Neuigkeiten" onChange={(e) => setSelectedNews(e.target.value)} />
-      <Form.Switch value={selectedEvents} label="Veranstaltungen" onChange={(e) => setSelectedEvents(e.target.value)} />
-      <Form.Switch value={selectedProjects} label="Projekte" onChange={(e) => setSelectedProjects(e.target.value)} />
-      <Form.Switch value={selectedActors} label="Akteure" onChange={(e) => setSelectedActors(e.target.value)} />
+{
+  contentCategories.map((channel, i) => (
+    <Form.Switch
+      key={i}
+      value={channel.name}
+      contentId={channel.id}
+      label={channel.name}
+      onChange={(e) => {
+        const isChecked = e.target.checked;
+        if (isChecked) {
+          setSelectedContents((prevSelectedContents) => [
+            ...prevSelectedContents,
+            channel.id,
+          ]);
+        } else {
+          setSelectedContents((prevSelectedContents) =>
+            prevSelectedContents.filter((id) => id !== channel.id)
+          );
+        }
+      }}
+    />
+  ))
+}
     </Form.Group>
   )
 }
 
-function MediaCategories({device, setDevice}) {
-  
-  return (
+function MediaCategories(device, setDevice, mediaCategories) {
+     
+    return (
     <Form.Group className="mb-3">
       <Form.Label>Wähle das Media-Device aus, das du hinzufügen möchtest.</Form.Label>
       <Form.Select value={device} onChange={(e) => setDevice(e.target.value)}>
-        {"Digital Democracy (mit Foto und Beschreibung), Analoge Displays (mit Foto und Beschreibung)".split(", ").map(i => (
-          <option>{i}</option>
+      {mediaCategories.map(j => (
+          <option mediaId={j.id}>{j.name}</option>
         ))}
       </Form.Select>
     </Form.Group>
   )
 }
 
-function Interests({interests, setInterests}) {
-  const allInterests = "Städtebauliche Entwicklung, Lokale Betriebe und Dienstleistungen, Klima & Energie, Verkehr, Grün- & Freiflächen, Interkulturelles, Bildung, soziale Vereine, Mode und Schmuck, Jugend, Partizipation, Familien, Tiere und Natur, Kunst & Kultur, Gesundheit, Freizeit & Erholung, Bewegung & Gesundheit, Nachhaltigkeit, solidarische Landwirtschaft, Gemeinsames Kochen, Gastronomie";
+function Interests({ interestCategories, setInterests }) {
+  const handleSelectChange = (e) => {
+    const selectedIds = Array.from(e.target.selectedOptions, option => option.value);
+    setInterests(selectedIds);
+  };
+
   return (
     <Form.Group className="mb-3">
       <Form.Label>Wähle Interessensschwerpunkte aus, zu denen Du Inhalte erstellen möchtest. (Zum Hinzufügen eines weiteren Punktes zur Auswahl, <kbd>Strg</kbd> beim Auswählen gedrückt halten)</Form.Label>
-      <Form.Select multiple={true} onChange={(e) => {setInterests(map(e.target.selectedOptions, i => i.innerText))}}> {/* onchange gets the selected elements before change */}
-        {allInterests.split(", ").map(i => (
-          <option>{i}</option>
+      <Form.Select multiple={true} onChange={handleSelectChange}>
+        {interestCategories.map(i => (
+          <option key={i.id} value={i.id}>
+            {i.name}
+          </option>
         ))}
       </Form.Select>
     </Form.Group>
-  )
+  );
 }
 
 function Registration() {
   const [status, setStatus] = useState(null); // for server response
   const [validated, setValidated] = useState(false);
   
-  const [role, setRole] = useState('Creator');
+  const [role, setRole] = useState([]);
   const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const [name, setName] = useState('');
   const [street, setStreet] = useState('');
+  const [streetNumber, setStreetNumber] = useState('');
   const [zip, setZip] = useState('');
   const [city, setCity] = useState('');
   const [email, setEmail] = useState('');
@@ -81,7 +113,8 @@ function Registration() {
   const [interests, setInterests] = useState({});
   const [motivation, setMotivation] = useState('');
   const [bots, setBots] = useState([]);
-  
+  const [agents, setAgents] = useState([]);
+
   const [roleFeedback, setRoleFeedback] = useState('Creator');
   const [usernameFeedback, setUsernameFeedback] = useState('');
   const [password1Feedback, setPassword1Feedback] = useState('');
@@ -102,10 +135,47 @@ function Registration() {
   const [motivationFeedback, setMotivationFeedback] = useState('');
   const [botsFeedback, setBotsFeedback] = useState([]);
   
+  const [selectedContents, setSelectedContents] = useState([]);
+  const [contentCategories, setContentCategories] = useState([]);
+    
+  useEffect(()=> {
+        fetchCategories("content-categories").then(apiResponse => {
+            setContentCategories(apiResponse)
+        })
+  }, [])
+  const [mediaCategories, setMediaCategories] = useState([]);
+    
+  useEffect(()=> {
+        fetchCategories("media-categories").then(apiResponse => {
+            setMediaCategories(apiResponse)
+        })
+  }, [])
+  const [interestCategories, setInterestCategories] = useState([]);
+  useEffect(()=> {
+        fetchCategories("area-of-interest").then(apiResponse => {
+            setInterestCategories(apiResponse)
+        })
+  }, [])
+  
+  const [roleCategories, setRoleCategories] = useState([]);
+  useEffect(()=> {
+        fetchCategories("roles").then(apiResponse => {
+            setRoleCategories(apiResponse)
+        })
+  }, [])
+  const [agentCategories, setAgentCategories] = useState([]);
+  useEffect(()=> {
+          fetchCategories("agents").then(apiResponse => {
+              setAgentCategories(apiResponse)
+          })
+    }, [])
+
   const steps = [
     {}, {}, {}, {}, {},
     {
       "Creator": <ContentChannels
+        contentCategories={contentCategories}
+        selectedContents={selectedContents}
         selectedNews={selectedNews}
         selectedEvents={selectedEvents}
         selectedProjects={selectedProjects}
@@ -114,12 +184,13 @@ function Registration() {
         setSelectedEvents={i => setSelectedEvents(i)}
         setSelectedProjects={i => setSelectedProjects(i)}
         setSelectedActors={i => setSelectedActors(i)}
+        setSelectedContents={i => setSelectedContents(i)}
       />,
-      "Messenger": <MediaCategories />
+      "Messenger": <MediaCategories mediaCategories={mediaCategories} device={device} setDevice={i => setDevice(i)} />
     }, {},
     {
       "Creator": <Interests
-        interests={interests}
+        interestCategories={interestCategories}
         setInterests={i => setInterests(i)}
       />,
       "Messenger": null
@@ -133,25 +204,24 @@ function Registration() {
       return;
     }
     const dataObj = {
-      role: role,
+      roles: role,
       username: username,
       password1: password1,
       password2: password2,
-      name: name,
+      first_name: firstName,
+      last_name: lastName,
       street: street,
-      zip: zip,
+      street_number: streetNumber,
+      postal_code: zip,
       city: city,
       email: email,
-      phone: phone,
-      selectedNews: selectedNews,
-      selectedEvents: selectedEvents,
-      selectedProjects: selectedProjects,
-      selectedActors: selectedActors,
-      device: device,
-      picture: picture,
-      interests: interests,
-      motivation: motivation,
-      bots: bots
+      phone_number: phone,
+      //profile_picture: picture,
+      content_categories: selectedContents,
+      media_categories: [1],
+      area_of_interest: interests,
+      description: motivation,
+      ai_agent: agents
     };
     postRegistration(dataObj)
     .then(res => {
@@ -169,9 +239,9 @@ function Registration() {
       <Form onSubmit={handleRegistration} noValidate validated={validated}>
         <Form.Group className="mb-3">
           <Form.Label>Wähle die Rolle, auf die Du Dich bewerben willst</Form.Label>
-          <Form.Select value={role} onChange={(e) => {setRole(e.target.value); setValidated(false)}}>
-            {"Creator, Messenger".split(", ").map(i => (
-              <option>{i}</option>
+          <Form.Select value={role} onChange={(e) => {setRole(e.target.roleId); setValidated(false)}}>
+            {roleCategories.map(i => (
+              <option roleId={i.id}>{i.role}</option>
             ))}
           </Form.Select>
           <Form.Control.Feedback type="invalid">
@@ -180,11 +250,13 @@ function Registration() {
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Gib Deinen Namen ein.</Form.Label>
-          <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <Form.Control type="text" placeholder="Vorname" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+          <Form.Control type="text" placeholder="Nachname" value={lastName} onChange={(e) => setLastName(e.target.value)} /> 
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Gib Deine Wohnadresse ein.</Form.Label>
-          <Form.Control type="text" value={street} placeholder="Straße und Hausnummer" onChange={(e) => setStreet(e.target.value)} />
+          <Form.Control type="text" value={street} placeholder="Straße" onChange={(e) => setStreet(e.target.value)} />
+          <Form.Control type="text" value={streetNumber} placeholder="Hausnummer" onChange={(e) => setStreetNumber(e.target.value)} />
           <Form.Control type="text" value={zip} placeholder="Postleitzahl" onChange={(e) => setZip(e.target.value)} />
           <Form.Control type="text" value={city} placeholder="Ort" onChange={(e) => setCity(e.target.value)} />
         </Form.Group>
@@ -213,9 +285,9 @@ function Registration() {
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Welchen digitalen Agenten möchten Sie integrieren?</Form.Label>
-          <Form.Select multiple={true}>
-            {"Mierendorff-INSEL-Veranstaltungs-Scraper von Silas".split(", ").map(i => (
-              <option>{i}</option>
+          <Form.Select multiple={true} onchange={(e) => setAgents(e.target.agentId)}>
+            {agentCategories.map(i => (
+              <option agentId={i.id}>{i.name}</option>
             ))}
           </Form.Select>
         </Form.Group>

@@ -72,3 +72,4 @@ class User(AbstractUser):
                                               null=True)
     ai_agent = models.ManyToManyField(Agent, blank=True, null=True)
     roles = models.ManyToManyField(Role, blank=True, null=True)
+    motivation = models.TextField(blank=True, null=True)
