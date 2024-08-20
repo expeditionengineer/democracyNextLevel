@@ -53,7 +53,7 @@ function ContentChannels({
   )
 }
 
-function MediaCategories({device, setDevice}, {mediaCategories, setMediaCategories}) {
+function MediaCategories(device, setDevice, mediaCategories) {
      
     return (
     <Form.Group className="mb-3">
@@ -67,25 +67,31 @@ function MediaCategories({device, setDevice}, {mediaCategories, setMediaCategori
   )
 }
 
-function Interests({interestCategories, setInterests}) {
-    
-    return (
+function Interests({ interestCategories, setInterests }) {
+  const handleSelectChange = (e) => {
+    const selectedIds = Array.from(e.target.selectedOptions, option => option.value);
+    setInterests(selectedIds);
+  };
+
+  return (
     <Form.Group className="mb-3">
       <Form.Label>Wähle Interessensschwerpunkte aus, zu denen Du Inhalte erstellen möchtest. (Zum Hinzufügen eines weiteren Punktes zur Auswahl, <kbd>Strg</kbd> beim Auswählen gedrückt halten)</Form.Label>
-      <Form.Select multiple={true} onChange={(e) => {setInterests(map(e.target.selectedOptions, i => i.innerText))}}> {/* onchange gets the selected elements before change */}
+      <Form.Select multiple={true} onChange={handleSelectChange}>
         {interestCategories.map(i => (
-          <option interestId={i.id}>{i.name}</option>
+          <option key={i.id} value={i.id}>
+            {i.name}
+          </option>
         ))}
       </Form.Select>
     </Form.Group>
-  )
+  );
 }
 
 function Registration() {
   const [status, setStatus] = useState(null); // for server response
   const [validated, setValidated] = useState(false);
   
-  const [role, setRole] = useState('Creator');
+  const [role, setRole] = useState([]);
   const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -132,7 +138,6 @@ function Registration() {
   const [selectedContents, setSelectedContents] = useState([]);
   const [contentCategories, setContentCategories] = useState([]);
     
-  fetchCategories("content-categories").then(data => setContentCategories(data))
   useEffect(()=> {
         fetchCategories("content-categories").then(apiResponse => {
             setContentCategories(apiResponse)
@@ -181,7 +186,7 @@ function Registration() {
         setSelectedActors={i => setSelectedActors(i)}
         setSelectedContents={i => setSelectedContents(i)}
       />,
-      "Messenger": <MediaCategories mediaCategories={mediaCategories} />
+      "Messenger": <MediaCategories mediaCategories={mediaCategories} device={device} setDevice={i => setDevice(i)} />
     }, {},
     {
       "Creator": <Interests
@@ -211,9 +216,9 @@ function Registration() {
       city: city,
       email: email,
       phone_number: phone,
-      profile_picture: picture,
+      //profile_picture: picture,
       content_categories: selectedContents,
-      media_categories: device,
+      media_categories: [1],
       area_of_interest: interests,
       description: motivation,
       ai_agent: agents
