@@ -235,7 +235,7 @@ function Registration() {
   };
   
   return (
-    <main style={{width: "300px"}}>
+    <main className="registration" style={{width: "300px"}}>
       <Form onSubmit={handleRegistration} noValidate validated={validated}>
         <Form.Group className="mb-3">
           <Form.Label>Wähle die Rolle, auf die Du Dich bewerben willst</Form.Label>
