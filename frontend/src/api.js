@@ -38,10 +38,10 @@ export async function postRegistration(dataObj) {
     body: JSON.stringify(dataObj)
   };
   return fetchData(url, req)
-  .then(res => res.json())
+  /* .then(res => res.json())
   .catch(error => {
     console.error(`failed to extract json: ${error.message}`)
-  })
+  }) */
 }
 
 export async function fetchCategories(endpoint) {

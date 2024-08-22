@@ -37,6 +37,10 @@ function WorkshopSignup() {
       return;
     }
     const dataObj = {
+      password1: "rzbu4eiutan4pvot#",
+      password2: "rzbu4eiutan4pvot#",
+      username: email,
+      description: "bla bla bla",
       role: "workshopper",
       first_name: firstName,
       last_name: lastName,
@@ -45,7 +49,12 @@ function WorkshopSignup() {
     };
     postRegistration(dataObj)
     .then(res => {
-      setError(res);
+      setSuccess(res.ok);
+      setHasError(!res.ok);
+      return res.json()
+    })
+    .then(jsn => {
+      setError(jsn);
       setHasError(true);
     })
     .catch(
