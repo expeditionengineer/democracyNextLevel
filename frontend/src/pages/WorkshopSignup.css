@@ -4,13 +4,26 @@
 }
 
 .workshop-signup {
-  width: 100%;
   box-shadow: none;
 }
 
-@media only screen and (min-width: 576px) {
+@media only screen and (min-width: 768px) {
   .workshop-signup {
-    width: 350px;
+    width: 95%;
+  }
+  .workshop-signup > * > * > * {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+  .workshop-signup form {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .workshop-signup {
+    width: 90%;
+  }
+  .workshop-signup form {
+    width: 400px;
   }
 }
