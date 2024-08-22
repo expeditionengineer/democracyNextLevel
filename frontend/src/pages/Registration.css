@@ -1,8 +1,8 @@
-main > form {
+main.registration > form {
   counter-reset: reg-step;
 }
 
-main > form > * > label::before {
+main.registration > form > * > label::before {
   counter-increment: reg-step;
   content: counter(reg-step) '. ';
 }

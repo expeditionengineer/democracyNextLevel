@@ -4,6 +4,7 @@ import Layout from './pages/Layout';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
+import WorkshopSignup from './pages/WorkshopSignup';
 import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import CreateEvent from './CreateEvent';
@@ -42,6 +43,7 @@ function App() {
           <Route path="*" element={<NoPage />} />
         </Route>
         <Route path="/display-slideshow" element={<DisplaySlideshow />} />
+        <Route path="/workshop-signup" element={<WorkshopSignup />} />
       </Routes>
     </Router>
   );
