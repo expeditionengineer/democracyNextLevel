@@ -166,6 +166,9 @@ function WorkshopSignup() {
           </Col>
         </Row>)
       }
+      <Row>
+        <Col><a style={{padding: "2em"}} href="/workshop-signup/legal">Legal information</a></Col>
+      </Row>
     </main>
   );
 }
