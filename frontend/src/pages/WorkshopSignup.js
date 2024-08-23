@@ -72,10 +72,10 @@ function WorkshopSignup() {
       {success ?
         (<Alert variant="success">
           <Alert.Heading>
-            <Check2Circle /> Your sign-up had been successfull!
+            <Check2Circle /> Your sign-up has been successfull!
           </Alert.Heading>
           <p>
-            See you soon.
+            See you soon, {firstName}.
           </p>
         </Alert>)
         :
