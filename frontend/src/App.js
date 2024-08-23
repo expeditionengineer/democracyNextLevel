@@ -5,6 +5,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import WorkshopSignup from './pages/WorkshopSignup';
+import WorkshopSignupLegalInformation from './pages/WorkshopSignupLegalInformation';
 import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import CreateEvent from './CreateEvent';
@@ -44,6 +45,7 @@ function App() {
         </Route>
         <Route path="/display-slideshow" element={<DisplaySlideshow />} />
         <Route path="/workshop-signup" element={<WorkshopSignup />} />
+        <Route path="/workshop-signup/legal" element={<WorkshopSignupLegalInformation />} />
       </Routes>
     </Router>
   );
