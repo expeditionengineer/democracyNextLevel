@@ -3,8 +3,40 @@
   margin-bottom: 1.5em;
 }
 
+.workshop-signup h2 {
+  font-size: 1.25em;
+}
+
+.workshop-signup h3 {
+  font-size: 1.125em;
+}
+
 .workshop-signup {
   box-shadow: none;
+}
+
+.workshop-signup .form-wrapper {
+  padding: 1em;
+}
+
+.workshop-signup .form-wrapper .nav-tabs {
+  display: none;
+}
+
+.workshop-signup button {
+  margin: .2em;
+}
+
+.form-label::after {
+  content: " *";
+  color: red;
+}
+
+#required {
+  color: red;
+  margin-top: 1em;
+  border-top: 1px solid lightgrey;
+  padding: .5em;
 }
 
 @media only screen and (min-width: 768px) {
@@ -14,7 +46,7 @@
   .workshop-signup > .row > * > * {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   }
-  .workshop-signup form {
+  .workshop-signup .form-wrapper {
     width: 100%;
   }
 }
@@ -23,7 +55,7 @@
   .workshop-signup {
     width: 90%;
   }
-  .workshop-signup form {
+  .workshop-signup .form-wrapper {
     width: 400px;
   }
 }
