@@ -18,6 +18,7 @@ function WorkshopSignupLegalInformation() {
         Email: <a href="mailto:can.doebler@web.de">can.doebler@web.de</a><br />
         Phone: 015781051651
       </address>
+      <h2 id="privacy">Privacy Policy</h2>
     </main>
   );
 }
