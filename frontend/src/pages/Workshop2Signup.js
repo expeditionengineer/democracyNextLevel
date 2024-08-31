@@ -11,7 +11,7 @@ import Alert from 'react-bootstrap/Alert';
 import { Check2Circle } from 'react-bootstrap-icons';
 import {postRegistration, fetchCategories} from '../api';
 import './WorkshopSignup.css';
-import video from '../videos/workshop.mp4';
+import video from '../videos/workshop2.mp4';
 
 function map(list, func) {
   const result = [];
@@ -489,7 +489,7 @@ function StepThree({error, leader, committee, setCommittee,
   )
 }
 
-function WorkshopSignup() {
+function Workshop2Signup() {
   const [error, setError] = useState({}); // for server response
   const [hasError, setHasError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -522,7 +522,7 @@ function WorkshopSignup() {
       return
     }
     const dataObj = {
-      role: "conflict",
+      role: "theeye",
       password1: "rzbu4eiutan4pvot#",
       password2: "rzbu4eiutan4pvot#",
       username: email,
@@ -603,7 +603,7 @@ function WorkshopSignup() {
             <div class="workshop-information">
               <h2>Workshop Information</h2>
               <p>
-                When? 8th of September from 8&nbsp;a.m. to 11&nbsp;a.m.<br />
+                When?<br />
                 Where?<br />
                 Price?
               </p>
@@ -716,4 +716,4 @@ function WorkshopSignup() {
   );
 }
 
-export default WorkshopSignup;
+export default Workshop2Signup;

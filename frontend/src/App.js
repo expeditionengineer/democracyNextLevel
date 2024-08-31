@@ -5,6 +5,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import WorkshopSignup from './pages/WorkshopSignup';
+import Workshop2Signup from './pages/Workshop2Signup';
 import WorkshopSignupLegalInformation from './pages/WorkshopSignupLegalInformation';
 import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './pages/Dashboard';
@@ -44,9 +45,10 @@ function App() {
           <Route path="*" element={<NoPage />} />
         </Route>
         <Route path="/display-slideshow" element={<DisplaySlideshow />} /> */}
-        <Route path="*" element={<Navigate to="/workshop-signup" replace />} />
-        <Route path="/workshop-signup" element={<WorkshopSignup />} />
-        <Route path="/workshop-signup/legal" element={<WorkshopSignupLegalInformation />} />
+        <Route path="/dialog-based-conflict-resolution" element={<WorkshopSignup />} />
+        <Route path="/the-eye-the-game" element={<Workshop2Signup />} />
+        <Route path="/legal" element={<WorkshopSignupLegalInformation />} />
+        <Route path="*" element={<Navigate to="/dialog-based-conflict-resolution" replace />} />
       </Routes>
     </Router>
   );

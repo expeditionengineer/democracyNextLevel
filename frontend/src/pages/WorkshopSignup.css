@@ -39,6 +39,11 @@
   padding: .5em;
 }
 
+.workshop-information {
+  margin-top: 1em;
+  padding: 1em;
+}
+
 @media only screen and (min-width: 768px) {
   .workshop-signup {
     width: 95%;
