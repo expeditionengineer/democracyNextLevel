@@ -1,14 +1,17 @@
 .workshop-signup h1 {
-  font-size: 1.5em;
-  margin-bottom: 1.5em;
+  margin-bottom: 1em;
 }
 
 .workshop-signup h2 {
-  font-size: 1.25em;
+  font-size: 1.5em;
+}
+
+.form-wrapper h2 {
+  margin-bottom: 1.5em;
 }
 
 .workshop-signup h3 {
-  font-size: 1.125em;
+  font-size: 1.25em;
 }
 
 .workshop-signup {
@@ -41,6 +44,7 @@
 
 .workshop-information {
   margin-top: 1em;
+  margin-bottom: 1em;
   padding: 1em;
 }
 
