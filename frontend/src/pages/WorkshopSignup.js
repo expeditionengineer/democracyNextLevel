@@ -12,6 +12,7 @@ import { Check2Circle } from 'react-bootstrap-icons';
 import {postRegistration, fetchCategories} from '../api';
 import './WorkshopSignup.css';
 import video from '../videos/workshop.mp4';
+import video2 from '../videos/workshop2.mp4';
 
 function map(list, func) {
   const result = [];
@@ -489,7 +490,7 @@ function StepThree({error, leader, committee, setCommittee,
   )
 }
 
-function WorkshopSignup() {
+function WorkshopSignup({workshopVariant}) {
   const [error, setError] = useState({}); // for server response
   const [hasError, setHasError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -522,7 +523,7 @@ function WorkshopSignup() {
       return
     }
     const dataObj = {
-      role: "conflict",
+      role: workshopVariant,
       password1: "rzbu4eiutan4pvot#",
       password2: "rzbu4eiutan4pvot#",
       username: email,
@@ -576,7 +577,7 @@ function WorkshopSignup() {
     setStep(step - 1);
   }
   
-  document.title = "Workshop Sign-up";
+  document.title = "One-Building City Sign-up";
   
   return (
     <main className="rounded m-auto mt-md-3 workshop-signup">
@@ -598,20 +599,26 @@ function WorkshopSignup() {
               style={{width: "100%", height: "auto"}}
               controls
             >
-              <source src={video} type="video/mp4" />
+              <source src={workshopVariant == 1 ? video : video2} type="video/mp4" />
             </video>
             <div class="workshop-information">
+              <h1>Decision-Making Role Play</h1>
               <h2>Workshop Information</h2>
               <p>
-                When? 8th of September from 8&nbsp;a.m. to 11&nbsp;a.m.<br />
-                Where?<br />
-                Price?
+                <dl>
+                  <dt>When</dt>
+                  <dd>Wednesday, September 8th, from 8:00 to 11:00&nbsp;AM</dd>
+                  <dt>Where</dt>
+                  <dd>Harry DAN's Library at 140 Đường Lê Văn Tám, Phường 2, Thành phố Bảo Lộc</dd>
+                  <dt>Price</dt>
+                  <dd>Free for the first 25 registrants. After that, 50,000 VND per person.</dd>
+                </dl>
               </p>
             </div>
           </Col>
           <Col md={6} lg="auto">
             <div class="form-wrapper">
-              <h1>Workshop Sign-up</h1>
+              <h2>One-Building City Sign-up</h2>
               <Tabs
                 activeKey={step}
                 onSelect={(k) => setStep(k)}
