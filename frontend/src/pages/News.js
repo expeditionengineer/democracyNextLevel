@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import GeneralCard from '../components/GeneralCard';
 import CardButtons from '../components/CardButtons';
+import CreateNews from '../components/CreateNews';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -48,7 +49,7 @@ const News = () => {
   }, []);  // Empty dependency array ensures this effect runs once when the component mounts
   return (
   <>
-    {!loading && data["roles"].includes(1) ? <button>Create News</button> : null}
+    {!loading && data["roles"].includes(1) ? <Link href="/create-news">Create News</Link> : null}
 
     <Row as="main" xs={1} xl={2} xxl={3}>
       
