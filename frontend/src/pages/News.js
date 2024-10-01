@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import GeneralCard from '../components/GeneralCard';
 import CardButtons from '../components/CardButtons';
-import CreateNews from '../components/CreateNews';
+//import CreateNews from '../components/CreateNews';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';

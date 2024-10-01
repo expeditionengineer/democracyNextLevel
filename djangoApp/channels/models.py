@@ -73,7 +73,7 @@ class News(models.Model):
     published = models.BooleanField(default=False)
     tag = models.ManyToManyField(Tag, blank=True, null=True)
 
-    link = models.CharField(max_length=200)
+    link = models.CharField(max_length=200, blank=True, null=True)
 
 
 class Project(models.Model):

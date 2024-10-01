@@ -101,11 +101,11 @@ REST_AUTH = {
 }
 ACCOUNT_EMAIL_VERIFICATION = "none"
 WSGI_APPLICATION = "djangoApp.wsgi.application"
-CORS_ORIGIN_WHITELIST = [
-    "http://127.0.0.1:3000",
-    "http://localhost:3000",
-    "http://127.0.0.1:8000",
-]
+# CORS_ORIGIN_WHITELIST = [
+#     "http://127.0.0.1:3000",
+#     "http://localhost:3000",
+#     "http://127.0.0.1:8000",
+# ]
 # CORS_ORIGIN_ALLOW_ALL = True for test cases in the same network
 CORS_ORIGIN_ALLOW_ALL = True
 
