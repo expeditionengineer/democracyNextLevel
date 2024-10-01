@@ -32,7 +32,8 @@ function Login() {
     })
     .then(data => {
       localStorage.setItem('token', data.key);
-      navigate('/');
+      debugger;
+      navigate('/news');
     })
     .catch(error => {
       setError(error.message);

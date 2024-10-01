@@ -31,7 +31,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout />}>
           <Route index element={!token ? <Login /> : <Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
@@ -43,11 +43,11 @@ function App() {
           <Route path="/news" element={<News />} />
           <Route path="*" element={<NoPage />} />
         </Route>
-        <Route path="/display-slideshow" element={<DisplaySlideshow />} /> */}
+        <Route path="/display-slideshow" element={<DisplaySlideshow />} />
         <Route path="/dialog-based-conflict-resolution" element={<WorkshopSignup workshopVariant={1} />} />
         <Route path="/the-eye-the-game" element={<WorkshopSignup workshopVariant={2} />} />
         <Route path="/legal" element={<WorkshopSignupLegalInformation />} />
-        <Route path="*" element={<Navigate to="/dialog-based-conflict-resolution" replace />} />
+        //<Route path="*" element={<Navigate to="/dialog-based-conflict-resolution" replace />} />
       </Routes>
     </Router>
   );

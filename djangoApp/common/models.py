@@ -45,6 +45,8 @@ class Role(models.Model):
     """
     role = models.CharField(max_length=200, blank=True, null=True)
 
+    def __str__(self):
+        return self.role
 
 class User(AbstractUser):
     """Modification of the Django default user model."""

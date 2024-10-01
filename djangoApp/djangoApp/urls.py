@@ -29,6 +29,8 @@ urlpatterns = [
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path("events/", UserEventList.as_view(), name="user-evnts"),
     path("events/published/", get_published_events, name="published_events"),
+    path("user/", UserView.as_view(), name="UserView"),
+    path('auth/', include('dj_rest_auth.urls')),  # Authentication URLs (Login, Logout, User Details)
     path("dj-rest-auth/registration/",
          include("dj_rest_auth.registration.urls")),
     path("iotdevices/", IotDeviceAPI.as_view(), name="iotdevices"),
