@@ -4,7 +4,7 @@ import GeneralCard from '../components/GeneralCard';
 import CardButtons from '../components/CardButtons';
 import VoterDashboard from '../components/VoterDashboard';
 import ProposalView from '../components/ProposalView';
-import InfoView from '../components/InfoView';
+import DebateCardView from '../components/DebateCardView';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -18,6 +18,9 @@ const Dashboard = () => {
   const [data, setData] = useState([]);
   const [newsData, setNewsData] = useState([]);
   const [positionNews, setPositionNews] = useState(0);
+
+  const [newsMeta, setNewsMeta] = useState([]);
+
   const [newsDataLoaded, setNewsDataLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -65,12 +68,16 @@ const Dashboard = () => {
       const newsDataResponse = await response.json(); // Await the JSON parsing
       setNewsData(newsDataResponse); // Now newsDataResponse holds the actual data
       setNewsDataLoaded(true); // Set the news data loaded flag
+      const arrayToUpdateMetaState = newsDataResponse.map(() => [0, 0, 0, 0, 0, 0]);
+      console.log(arrayToUpdateMetaState);
+      debugger;
+      setNewsMeta(arrayToUpdateMetaState);
     } catch (error) {
       console.error('Error fetching news:', error); // Handle errors
     }
     }
     fetchNews();
-  }, []);
+  }, []); 
 
   const [debateCardsForNews, setDebateCardsForNews] = useState([]);
   const [debateDataLoaded, setDetbateDataLoaded] = useState(false);
@@ -126,45 +133,72 @@ const Dashboard = () => {
   const [keyPressed, setKeyPressed] = useState('');
 
   // UseEffect hook to add event listener when the component mounts
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key == "ArrowDown") {
+useEffect(() => {
+  const handleKeyDown = (event) => {
+    // Handle ArrowDown key press
+    if (event.key === "ArrowDown") {
+      if (debateCategoryView === 0) {
         if (positionNews < newsData.length) {
-          setPositionNews(positionNews+1);
+          setPositionNews(positionNews + 1);
+        }
+        else {
+          setPositionNews(0);
         }
       }
-      if (event.key == "ArrowUp") {
+      else {
+        var copiedNewsMetaData = [...newsData];
+        copiedNewsMetaData[positionNews][debateCategoryView] += 1;
+        setNewsMeta(copiedNewsMetaData);
+      }
+    }
+
+    // Handle ArrowUp key press
+    if (event.key === "ArrowUp") {
+      if (debateCategoryView === 0) {
         if (positionNews > 0) {
-          setPositionNews(positionNews-1);
-        }
-      }
-      if (event.key == "ArrowRight") {
-        if (debateCategoryView < 6) {
-          setDebateCategoryView(debateCategoryView+1);
+          setPositionNews(positionNews - 1);
         }
         else {
-          setDebateCategoryView(0);
+          setPositionNews(newsData.length -1);
         }
-      if (event.key == "ArrowLeft") {
-        if (debateCategoryView > 0) {
-          setDebateCategoryView(debateCategoryView-1);
-        }
-        else {
-          setDebateCategoryView(6);
-        }
-      }  
       }
-      setKeyPressed(`Global Key pressed: ${event.key}`);
-    };
+      else {
+        var copiedNewsMetaData = [...newsData];
+        copiedNewsMetaData[positionNews][debateCategoryView] -= 1;
+        setNewsMeta(copiedNewsMetaData);
+      }
+    }
 
-    // Add keydown event listener to the window
-    window.addEventListener('keydown', handleKeyDown);
+    // Handle ArrowRight key press
+    if (event.key === "ArrowRight") {
+      if (debateCategoryView < 6) {
+        setDebateCategoryView(debateCategoryView + 1);
+      } else {
+        setDebateCategoryView(0);
+      }
+    }
 
-    // Cleanup the event listener when the component unmounts
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+    // Handle ArrowLeft key press
+    if (event.key === "ArrowLeft") {
+      if (debateCategoryView > 0) {
+        setDebateCategoryView(debateCategoryView - 1);
+      } else {
+        setDebateCategoryView(6);
+      }
+    }
+
+    // Set the pressed key information
+    setKeyPressed(`Global Key pressed: ${event.key}`);
+  };
+
+  // Add keydown event listener to the window
+  window.addEventListener('keydown', handleKeyDown);
+
+  // Cleanup the event listener when the component unmounts
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [positionNews, debateCategoryView]); // Add dependencies for useEffect
 
   return (
   <>
@@ -172,9 +206,8 @@ const Dashboard = () => {
     <h1>{keyPressed}</h1>
     <h1>{positionNews}</h1>
     <h1>{newsData.length}</h1>
-    {debateCategoryView == 0 && newsDataLoaded ? <ProposalView newsData={newsData} positionNews={positionNews} /> : null}
-    {debateCategoryView == 1 && newsDataLoaded ? <InfoView debateCardsForNews={debateCardsForNews} /> : null}
-
+    <h1>{debateCategoryView}</h1>
+    {debateCategoryView == 0 && newsDataLoaded && debateDataLoaded ? <ProposalView newsData={newsData} positionNews={positionNews} /> : <DebateCardView  debateCardsForNews={debateCardsForNews} categoryNumber={debateCategoryView} elementNumber={0}  />}
   </>
   )
 };

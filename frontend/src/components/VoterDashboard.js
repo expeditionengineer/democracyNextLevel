@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 
-const VoterDashboard = (hightlightNumber) => {
+const VoterDashboard = ({hightlightNumber}) => {
   const arrayOfButtonNames = [
     "Vorschlag",
     "Info",
@@ -11,21 +11,24 @@ const VoterDashboard = (hightlightNumber) => {
     "Komp-Vorschläge"
   ]
 
+
   return (
-    <div style={{margin: "20px"}}>
-      {arrayOfButtonNames.map((item, index) => {
-        if (hightlightNumber === index) {
-          return(
-            <Button style={{ margin: "20px", border: "solid", borderColor: "black" }}>{item}</Button>)
-        }
-        else {
-          return(<Button style={{ margin: "20px"}}>{item}</Button>);
-
-
-        }
-      })}
+    <div style={{ margin: "20px" }}>
+      <h1>{hightlightNumber}</h1>
+      {arrayOfButtonNames.map((item, index) => (
+        <Button
+          key={index}
+          style={{
+            margin: "20px",
+            border: hightlightNumber === index ? "10px solid black" : "none",
+          }}
+        >
+          {item}
+        </Button>
+      ))}
     </div>
   );
-}
+};
+
 
 export default VoterDashboard;
