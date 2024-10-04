@@ -15,6 +15,8 @@ const News = () => {
   const color = "red"
   
   const [data, setData] = useState([]);
+  const [newsData, setNewsData] = useState([]);
+  const [newsDataLoaded, setNewsDataLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   useEffect(() => {
@@ -47,97 +49,47 @@ const News = () => {
 
     fetchData();
   }, []);  // Empty dependency array ensures this effect runs once when the component mounts
+
+  // fetch the published news objects:
+  useEffect(() => {
+    const fetchNews = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/news/"); // Await fetch
+      if (!response.ok) {
+        throw new Error('Failed to fetch news');
+      }
+
+      const newsDataResponse = await response.json(); // Await the JSON parsing
+      setNewsData(newsDataResponse); // Now newsDataResponse holds the actual data
+      setNewsDataLoaded(true); // Set the news data loaded flag
+    } catch (error) {
+      console.error('Error fetching news:', error); // Handle errors
+    }
+    }
+    fetchNews();
+  }, []);
   return (
   <>
     {!loading && data["roles"].includes(1) ? <Link href="/create-news">Create News</Link> : null}
 
     <Row as="main" xs={1} xl={2} xxl={3}>
-      
-      <GeneralCard 
+      {newsDataLoaded && newsData.map((item, index) => (<GeneralCard 
         color="red"
         icon={(<Newspaper className="me-2" style={{color: color}} />)}
-        title="CardTitle"
+        title={item.heading}
         author={{
-          name: "Jane Doe",
+          name: `${item.userForname} ${item.userSurname}`,
           profilePic: "https://github.com/mdo.png"
         }}
-        date="02.07.2024"
-        picLink={testPic}
-        description="Some quick example text to build on the card title and make up the \
-              bulk of the card's content. Noch ein paar Sätze mehr. Noch ein paar Sätze mehr."
+        date={item.creationDateTime}
+        picLink={item.image == null ? testPic: `http://127.0.0.1:8000${item.image}`}
+        description={item.text}
         buttonbar={<CardButtons
-          proposal={true}
+          proposal={item.suggested}
         />}
         link="#"
-      />
-      <GeneralCard 
-        color="red"
-        icon="Information"
-        title="CardTitle"
-        author={{
-          name: "Jane Doe",
-          profilePic: "https://github.com/mdo.png"
-        }}
-        date="02.07.2024"
-        picLink={testPic}
-        description="Some quick example text to build on the card title and make up the \
-              bulk of the card's content. Noch ein paar Sätze mehr. Noch ein paar Sätze mehr."
-        buttonbar={<CardButtons
-          cardSubtype="information"
-        />}
-        link="#"
-      />
-      <GeneralCard 
-        color="red"
-        icon="Pro-Argument"
-        title="CardTitle"
-        author={{
-          name: "Jane Doe",
-          profilePic: "https://github.com/mdo.png"
-        }}
-        date="02.07.2024"
-        picLink={testPic}
-        description="Some quick example text to build on the card title and make up the \
-              bulk of the card's content. Noch ein paar Sätze mehr. Noch ein paar Sätze mehr."
-        buttonbar={<CardButtons
-          cardSubtype="pro-argument"
-        />}
-        link="#"
-      />
-      <GeneralCard 
-        color="red"
-        icon="Frage"
-        title="CardTitle"
-        author={{
-          name: "Jane Doe",
-          profilePic: "https://github.com/mdo.png"
-        }}
-        date="02.07.2024"
-        picLink={testPic}
-        description="Some quick example text to build on the card title and make up the \
-              bulk of the card's content. Noch ein paar Sätze mehr. Noch ein paar Sätze mehr."
-        buttonbar={<CardButtons
-          cardSubtype="question"
-        />}
-        link="#"
-      />
-      <GeneralCard 
-        color="red"
-        icon="Verbessern"
-        title="CardTitle"
-        author={{
-          name: "Jane Doe",
-          profilePic: (<profilePic/>)
-        }}
-        date="02.07.2024"
-        picLink={testPic}
-        description="Some quick example text to build on the card title and make up the \
-              bulk of the card's content. Noch ein paar Sätze mehr. Noch ein paar Sätze mehr."
-        buttonbar={<CardButtons
-          cardSubtype="optimize"
-        />}
-        link="#"
-      />
+      />) 
+      )}  
     </Row>
   </>
   )

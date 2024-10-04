@@ -63,7 +63,7 @@ class News(models.Model):
     heading = models.CharField(max_length=70)
     text = models.CharField(max_length=155)
     approvedByModerator = models.BooleanField(default=False)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='images/')
 
     # these attributes can maybe be moved in a parent class
     createdBy = models.ForeignKey(settings.AUTH_USER_MODEL,

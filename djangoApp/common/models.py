@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
-
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
 class Agent(models.Model):
     """Track AI Agents"""
@@ -75,3 +78,8 @@ class User(AbstractUser):
     ai_agent = models.ManyToManyField(Agent, blank=True, null=True)
     roles = models.ManyToManyField(Role, blank=True, null=True)
     motivation = models.TextField(blank=True, null=True)
+
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def create_auth_token(sender, instance=None, created=False, **kwargs):
+        if created:
+            Token.objects.create(user=instance)

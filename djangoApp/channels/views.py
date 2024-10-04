@@ -5,18 +5,21 @@ from rest_framework.views import APIView
 from django.contrib.auth.models import AnonymousUser
 from rest_framework.response import Response
 from django.http import HttpResponse
+from rest_framework.parsers import MultiPartParser, FormParser
 
-from channels.serializers import NewsSerializer
-from .models import News
+from channels.serializers import NewsSerializer, DebateCardSerializer
+from .models import News, DebateCard
 
 class NewsView(APIView):
     """
 
     """
+    parser_classes = (MultiPartParser, FormParser)
     def post(self, request):
         """
         
         """
+        
         if not request.user.is_authenticated:
             return HttpResponse(status=403)
 
@@ -27,10 +30,11 @@ class NewsView(APIView):
             if role.role == "Creator":
                 userIsCreator = True
         
-        request.data["creationDateTime"] = datetime.now()
-        request.data["createdBy"] = request.user.id
+        dataFromRequest = request.data.dict()
+        dataFromRequest["creationDateTime"] = datetime.now()
+        dataFromRequest["createdBy"] = request.user.id
 
-        newsSerializerObj = NewsSerializer(data=request.data)
+        newsSerializerObj = NewsSerializer(data=dataFromRequest)
         if userIsCreator == True:
             if newsSerializerObj.is_valid():
                 newsSerializerObj.save()
@@ -41,8 +45,25 @@ class NewsView(APIView):
         """
 
         """
-        newsObjs = News.objects.all()
+        newsObjs = News.objects.filter(approvedByModerator=True)
 
         serializer = NewsSerializer(newsObjs, many=True)
 
         return Response(serializer.data)
+
+class DebateCardNewsView(APIView):
+    """
+
+    """
+    def get(self, request, id):
+        """
+
+        """
+
+        # get the newsObj for the specified newsId 
+        newsObj = News.objects.get(id=id)
+        debateCardsForNewsObj = DebateCard.objects.filter(contentLinks=newsObj)
+        
+        debateCardSerializer = DebateCardSerializer(debateCardsForNewsObj, many=True)
+
+        return Response(debateCardSerializer.data)
