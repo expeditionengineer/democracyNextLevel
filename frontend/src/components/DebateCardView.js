@@ -5,11 +5,11 @@ import { Newspaper } from 'react-bootstrap-icons';
 import GeneralCard from '../components/GeneralCard';
 import CardButtons from '../components/CardButtons';
 
-const InfoView = ({debateCardsForNews}) => {
+const DebateCardView = ({debateCardsForNews, categoryNumber}) => {
 
   const debateCardInfoElements = [];
   for (var i=0; i<debateCardsForNews.length; i++) {
-    if (debateCardsForNews[i].category === 1) {
+    if (debateCardsForNews[i].category === categoryNumber) {
       debateCardInfoElements.push(debateCardsForNews[i]);
     }
   }
@@ -41,6 +41,6 @@ const InfoView = ({debateCardsForNews}) => {
   )
 }
 
-export default InfoView;
+export default DebateCardView;
 
 
