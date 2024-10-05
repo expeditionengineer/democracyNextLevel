@@ -14,7 +14,7 @@ const DebateCardView = ({ debateCardsForNews, categoryNumber, elementNumber }) =
   if (debateCardInfoElements.length === 0 || elementNumber >= debateCardInfoElements.length) {
     return null; // Or render some fallback UI
   }
-
+  debugger;
   const color = "red";
 
   return (

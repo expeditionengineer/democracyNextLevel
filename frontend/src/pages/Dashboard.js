@@ -42,7 +42,6 @@ const Dashboard = () => {
           throw new Error('Failed to fetch data');
         }
         const result = await response.json();
-        console.log(result)
         setData(result);
         setLoading(false);
         //setData(result);  // Update state with fetched data
@@ -70,7 +69,6 @@ const Dashboard = () => {
       setNewsDataLoaded(true); // Set the news data loaded flag
       const arrayToUpdateMetaState = newsDataResponse.map(() => [0, 0, 0, 0, 0, 0]);
       console.log(arrayToUpdateMetaState);
-      debugger;
       setNewsMeta(arrayToUpdateMetaState);
     } catch (error) {
       console.error('Error fetching news:', error); // Handle errors
@@ -80,7 +78,7 @@ const Dashboard = () => {
   }, []); 
 
   const [debateCardsForNews, setDebateCardsForNews] = useState([]);
-  const [debateDataLoaded, setDetbateDataLoaded] = useState(false);
+  const [debateDataLoaded, setDebateDataLoaded] = useState(false);
   const [debateCategoryView, setDebateCategoryView] = useState(0);
 
    useEffect(() => {
@@ -98,7 +96,7 @@ const Dashboard = () => {
 
       const debateCardDataResponse = await response.json(); // Await the JSON parsing
       setDebateCardsForNews(debateCardDataResponse); // Now newsDataResponse holds the actual data
-      setDetbateDataLoaded(true); // Set the news data loaded flag
+      setDebateDataLoaded(true); // Set the news data loaded flag
     } catch (error) {
       console.error('Error fetching debate data for news:', error); // Handle errors
     }
@@ -146,7 +144,7 @@ useEffect(() => {
         }
       }
       else {
-        var copiedNewsMetaData = [...newsData];
+        var copiedNewsMetaData = newsMeta.map(row => [...row]);
         copiedNewsMetaData[positionNews][debateCategoryView] += 1;
         setNewsMeta(copiedNewsMetaData);
       }
@@ -163,7 +161,7 @@ useEffect(() => {
         }
       }
       else {
-        var copiedNewsMetaData = [...newsData];
+        var copiedNewsMetaData = newsMeta.map(row => [...row]);
         copiedNewsMetaData[positionNews][debateCategoryView] -= 1;
         setNewsMeta(copiedNewsMetaData);
       }
@@ -198,7 +196,7 @@ useEffect(() => {
   return () => {
     window.removeEventListener('keydown', handleKeyDown);
   };
-}, [positionNews, debateCategoryView]); // Add dependencies for useEffect
+}, [positionNews, debateCategoryView, newsMeta]); // Add dependencies for useEffect
 
   return (
   <>
@@ -207,7 +205,8 @@ useEffect(() => {
     <h1>{positionNews}</h1>
     <h1>{newsData.length}</h1>
     <h1>{debateCategoryView}</h1>
-    {debateCategoryView == 0 && newsDataLoaded && debateDataLoaded ? <ProposalView newsData={newsData} positionNews={positionNews} /> : <DebateCardView  debateCardsForNews={debateCardsForNews} categoryNumber={debateCategoryView} elementNumber={0}  />}
+    {debateCategoryView == 0 && newsDataLoaded && debateDataLoaded ? <ProposalView newsData={newsData} positionNews={positionNews} /> : 
+      newsMeta[positionNews] ? (<DebateCardView  debateCardsForNews={debateCardsForNews} categoryNumber={debateCategoryView} elementNumber={newsMeta[positionNews][debateCategoryView]}  />) : <div>Loading debate card data...</div>}
   </>
   )
 };
