@@ -67,3 +67,66 @@ class DebateCardNewsView(APIView):
         debateCardSerializer = DebateCardSerializer(debateCardsForNewsObj, many=True)
 
         return Response(debateCardSerializer.data)
+
+
+
+class DebateCardsView(APIView):
+    """
+
+    """
+    def get(self, request):
+        """
+
+        """
+        if not request.user.is_authenticated:
+            return HttpResponse(status=403)
+
+
+        userIsVoter = False
+            
+        for role in request.user.roles.all():
+            if role.role == "Voter":
+                userIsVoter = True
+
+        allDebateCars = DebateCard.objects.all()
+        debateCardSerializer = DebateCardSerializer(allDebateCars, many=True)
+
+        return Response(debateCardSerializer.data)
+
+    def post(self, request):
+        """
+
+        """
+
+        if not request.user.is_authenticated:
+            return HttpResponse(status=403)
+
+
+        userIsVoter = False
+            
+        for role in request.user.roles.all():
+            if role.role == "Voter":
+                userIsVoter = True
+
+        if not userIsVoter:
+            return HttpResponse(status=403)
+        
+        obj, create = DebateCard.objects.get_or_create(
+            title=request.data["title"],
+            description=request.data["description"],
+            createdBy=request.user,
+            category=int(request.data["category"]),
+        )
+        
+        if not create:
+            return HttpResponse(status=200)
+
+        if request.data["linkedCard"] is not None: 
+            linkedDebateCardObj = DebateCard.objects.get(id=int(request.data["linkedCard"]))
+            obj.debateCardLinks.add(linkedDebateCardObj)
+           
+        linkedContentObj = News.objects.get(id=int(request.data["contentLinks"]))
+        obj.contentLinks.add(linkedContentObj)
+        obj.save()
+
+        return HttpResponse(status=200)

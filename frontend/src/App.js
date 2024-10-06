@@ -15,6 +15,7 @@ import IotDeviceMap from './iotDeviceLocation';
 import NoPage from "./pages/NoPage";
 import News from './pages/News';
 import DisplaySlideshow from './pages/DisplaySlideshow';
+import CreateDebateCard from './pages/CreateDebateCard';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -43,7 +44,7 @@ function App() {
           <Route path="/iotdevices" element={<IotDeviceMap />} />
           <Route path="/news" element={<News />} />
           <Route path="/create-news" element={<CreateNews />} />
-
+          <Route path="/create-debate-card" element={<CreateDebateCard />} />
           <Route path="*" element={<NoPage />} />
         </Route>
         <Route path="/display-slideshow" element={<DisplaySlideshow />} />

@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { ThreeDots } from 'react-bootstrap-icons';
+import { ThreeDots, Brush } from 'react-bootstrap-icons';
 
 const GeneralCard = ({icon, title, author, date, picLink, description, buttonbar, link, color}) => {
   
@@ -66,8 +66,11 @@ const GeneralCard = ({icon, title, author, date, picLink, description, buttonbar
               <Card.Text>
                 {description}
               </Card.Text>
-              <Button variant="link">Erfahre mehr&hellip;</Button>
-            </Card.Body>
+              <div style={{display: "flex"}}>
+                <Button variant="link">Erfahre mehr&hellip;</Button>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}><Button href="/create-debate-card" variant="link"><Brush /></Button></div>
+              </div>  
+          </Card.Body>
           </Card>
         </Col>
       </Row>
