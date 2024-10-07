@@ -102,28 +102,32 @@ function TooltipPositioned({element, tooltip}) {
   );
 }
 
+const sendDebateDataForDebateCard = (e) => {
+  
+}
+
 const debatePointsButtons = (
     <>
       <Row style={{position: "relative", top: -10 }}>
         <ButtonGroup>
           <TooltipPositioned
-            element={(<Button variant="secondary"><EmojiSurprise /></Button>)}
+            element={(<Button value="1" variant="secondary" onClick={sendDebateDataForDebateCard}><EmojiSurprise /></Button>)}
             tooltip="Interessant"
           />
           <TooltipPositioned
-            element={(<Button variant="secondary"><ShieldCheck /></Button>)}
+            element={(<Button value="2" variant="secondary"><ShieldCheck /></Button>)}
             tooltip="Vertrauen"
           />
           <TooltipPositioned
-            element={(<Button variant="secondary"><ShieldX /><br /></Button>)}
+            element={(<Button value="3" variant="secondary"><ShieldX /><br /></Button>)}
             tooltip="Nicht Vertrauen"
           />
           <TooltipPositioned
-            element={(<Button variant="secondary"><HandThumbsUp /></Button>)}
+            element={(<Button value="4" variant="secondary"><HandThumbsUp /></Button>)}
             tooltip="Zustimmen"
           />
           <TooltipPositioned
-            element={(<Button variant="secondary"><HandThumbsDown /></Button>)}
+            element={(<Button value="5" variant="secondary"><HandThumbsDown /></Button>)}
             tooltip="Nicht zustimmen"
           />
         </ButtonGroup>

@@ -17,6 +17,11 @@ class DebatePoint(models.Model):
     date = models.DateTimeField()
     voter = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE)
+    card = models.ForeignKey("DebateCard", on_delete=models.CASCADE, blank=True, null=True)
+    type = models.IntegerField(
+        validators=[MaxValueValidator(5), MinValueValidator(1)],
+        default=1,
+    )
     point = models.IntegerField(
         validators=[MaxValueValidator(1), MinValueValidator(-1)],
         default=0,
