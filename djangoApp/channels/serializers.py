@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from channels.models import News, DebateCard
+from channels.models import News, DebateCard, DebatePoint
 from common.models import User
 
 class NewsSerializer(serializers.ModelSerializer):
@@ -46,3 +46,11 @@ class DebateCardSerializer(serializers.ModelSerializer):
 
         """
         return obj.createdBy.last_name
+
+class DebatePointSerializer(serializers.ModelSerializer):
+    """
+
+    """
+    class Meta:
+        model = DebatePoint
+        fields = "__all__"

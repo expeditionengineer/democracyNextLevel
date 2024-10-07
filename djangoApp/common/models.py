@@ -88,21 +88,24 @@ class Setting(models.Model):
     """Model to safe the settings of the app.
 
     """
-    voter_debate_points_interesting = models.IntegerField(
-        default=0,
-    )
-    voter_debate_points_trust = models.IntegerField(
-        default=0,
-    )
-    voter_debate_points_not_trust = models.IntegerField(
-        default=0,
-    )
-    voter_debate_points_agree = models.IntegerField(
-        default=0,
-    )
-    voter_debate_points_not_agree = models.IntegerField(
-        default=0,
-    )
     voter_debate_points_proposal = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_fact = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_pro_arg = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_con_arg = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_question = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_improvment = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_comp_proposal = models.IntegerField(
         default=0,
     )

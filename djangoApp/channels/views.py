@@ -8,7 +8,8 @@ from django.http import HttpResponse
 from rest_framework.parsers import MultiPartParser, FormParser
 
 from channels.serializers import NewsSerializer, DebateCardSerializer
-from .models import News, DebateCard
+from .models import News, DebateCard, DebatePoint
+from common.models import Setting
 
 class NewsView(APIView):
     """
@@ -154,16 +155,57 @@ class DebatePointsView(APIView):
         
         typeOfDebatePoint = int(request.data["type"])
         
-        # get max number of points user can have for debate point type:
-        
+        mapping_numbers_to_orm_obj = {
+            1: "voter_debate_points_proposal",
+            2: "voter_debate_points_fact",
+            3: "voter_debate_points_pro_arg",
+            4: "voter_debate_points_con_arg",
+            5: "voter_debate_points_question",
+            6: "voter_debate_points_improvment",
+            7: "voter_debate_points_comp_proposal",
+    }
 
-        # check if the user has not used all their Points for that category yet:
-        
+        # get max number of points user can have for debate point type:
+        maxNbrOfPointsPerCard = getattr(Setting.objects.all()[0], mapping_numbers_to_orm_obj[typeOfDebatePoint])
+
 
         debateCardObj = DebateCard.objects.get(id=int(request.data["cardId"]))
 
+        # check if the user has not used all their Points for that category yet:
+        nbrDebatePointsForCardAndUser = DebatePoint.objects.filter(card=debateCardObj, voter=request.user).count()        
+        if nbrDebatePointsForCardAndUser >= maxNbrOfPointsPerCard:
+            return HttpResponse(status=405)
+
         DebatePoint.objects.get_or_create(
             card=debateCardObj,
-
+            type=typeOfDebatePoint,
+            voter=request.user,
+            date=datetime.now(),
         )
 
+        return HttpResponse(status=200)
+
+class DebatePointForCard(APIView):
+    """
+
+    """
+    def get(self, request, cardId):
+        """if the user is a voter, the 
+
+        """
+        if not request.user.is_authenticated:
+            return HttpResponse(status=403)
+
+
+        userIsVoter = False
+
+        for role in request.user.roles.all():
+            if role.role == "Voter":
+                userIsVoter = True
+
+        if not userIsVoter:
+            return HttpResponse(status=403)
+
+        pointsForUserAndCard = DebatePoint.objects.filter(voter=request.user, card=int(cardId))
+        serializer = DebatePointSerializer(pointsForUserAndCard, many=True)
+        return Response(serializer.data)

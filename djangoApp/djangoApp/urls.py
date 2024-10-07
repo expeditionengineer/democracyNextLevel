@@ -19,7 +19,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from channels.views import NewsView, DebateCardNewsView, DebateCardsView, DebatePointsView 
+from channels.views import (
+        NewsView,
+        DebateCardNewsView,
+        DebateCardsView,
+        DebatePointsView,
+        DebatePointForCard,
+)
 from events.views import UserEventList, get_published_events
 from iotManager.views import IotDeviceAPI, execute_scraper
 from common.views import *
@@ -46,6 +52,8 @@ urlpatterns = [
     path("debate-cards/news/<int:id>", DebateCardNewsView.as_view(), name="debateCards"),
     path("debate-cards/", DebateCardsView.as_view(), name="allDebateCards"),
     path("debate-points/", DebatePointsView.as_view(), name="debatePoints"), 
+    path("debate-points/<int:cardId>", DebatePointForCard.as_view(), name="debatePointsCard"), 
+
     # path("contents/", ContentAPI.as_view(), name="contents"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
