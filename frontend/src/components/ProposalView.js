@@ -21,7 +21,7 @@ const color = "red"
         picLink={newsData[positionNews].image == null ? testPic: `http://127.0.0.1:8000${newsData[positionNews].image}`}
         description={newsData[positionNews].text}
         buttonbar={<CardButtons
-          proposal={newsData[positionNews].suggested}
+          proposal={newsData[positionNews].suggested}  debateCardId={newsData[positionNews].id}
         />}
         link="#"
       /> 

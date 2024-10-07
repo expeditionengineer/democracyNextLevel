@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import React, { useState } from 'react';
+
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -102,38 +104,36 @@ function TooltipPositioned({element, tooltip}) {
   );
 }
 
-const sendDebateDataForDebateCard = (e) => {
-  
+const sendDebateDataForDebateCard = async (e) => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await fetch("http://127.0.0.1:8000/debate-points/", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',  // Set content type
+        'Authorization': `Token ${token}`,  // Append the token to the Authorization header
+      },
+      body: JSON.stringify({
+        cardId: e.target.cardId,
+        type: e.target.value,
+      })
+    });
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    
+
+    // If response is successful, change the button's style
+    e.target.style.backgroundColor = 'green';  // For example, change the background color to green
+    e.target.style.color = 'white';  // Change the text color to white
+    e.target.style.border = '2px solid darkgreen';  // Change the border to dark green
+    
+  } catch (error) {
+    console.error('Error:', error);
+  }
 }
 
-const debatePointsButtons = (
-    <>
-      <Row style={{position: "relative", top: -10 }}>
-        <ButtonGroup>
-          <TooltipPositioned
-            element={(<Button value="1" variant="secondary" onClick={sendDebateDataForDebateCard}><EmojiSurprise /></Button>)}
-            tooltip="Interessant"
-          />
-          <TooltipPositioned
-            element={(<Button value="2" variant="secondary"><ShieldCheck /></Button>)}
-            tooltip="Vertrauen"
-          />
-          <TooltipPositioned
-            element={(<Button value="3" variant="secondary"><ShieldX /><br /></Button>)}
-            tooltip="Nicht Vertrauen"
-          />
-          <TooltipPositioned
-            element={(<Button value="4" variant="secondary"><HandThumbsUp /></Button>)}
-            tooltip="Zustimmen"
-          />
-          <TooltipPositioned
-            element={(<Button value="5" variant="secondary"><HandThumbsDown /></Button>)}
-            tooltip="Nicht zustimmen"
-          />
-        </ButtonGroup>
-      </Row>
-    </>
-);
+
 
 const puplishedMethods = (
   <>
@@ -146,8 +146,37 @@ const puplishedMethods = (
 );
 
 
-const CardButtons = ({cardType, cardSubtype, proposal, moderator, published}) => {
-  
+const CardButtons = ({cardType, cardSubtype, proposal, moderator, published, debateCardId}) => {
+  const [debateCardIdState, setDebateCardIdState] = useState(debateCardId);
+  const debatePointsButtons = (
+    <>
+      <Row style={{position: "relative", top: -10 }}>
+        <ButtonGroup>
+          <TooltipPositioned
+            element={(<Button value="1" cardId={debateCardIdState} variant="secondary" onClick={sendDebateDataForDebateCard}><EmojiSurprise /></Button>)}
+            tooltip="Interessant"
+          />
+          <TooltipPositioned
+            element={(<Button value="2" cardId={debateCardIdState} variant="secondary" onClick={sendDebateDataForDebateCard}><ShieldCheck /></Button>)}
+            tooltip="Vertrauen"
+          />
+          <TooltipPositioned
+            element={(<Button value="3" cardId={debateCardIdState} variant="secondary" onClick={sendDebateDataForDebateCard}><ShieldX /><br /></Button>)}
+            tooltip="Nicht Vertrauen"
+          />
+          <TooltipPositioned
+            element={(<Button value="4" cardId={debateCardIdState} variant="secondary" onClick={sendDebateDataForDebateCard}><HandThumbsUp /></Button>)}
+            tooltip="Zustimmen"
+          />
+          <TooltipPositioned
+            element={(<Button value="5" cardId={debateCardIdState} variant="secondary" onClick={sendDebateDataForDebateCard}><HandThumbsDown /></Button>)}
+            tooltip="Nicht zustimmen"
+          />
+        </ButtonGroup>
+      </Row>
+    </>
+  );
+
   return (
   <>
     {proposal ? proposalCardButtons : undefined}

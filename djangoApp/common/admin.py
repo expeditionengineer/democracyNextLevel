@@ -6,7 +6,8 @@ from .models import (
     MediaCategory,
     ContentCategory,
     AreaOfInterest,
-    Role
+    Role,
+    Setting,
 )
 
 admin.site.register(Agent)
@@ -15,3 +16,4 @@ admin.site.register(ContentCategory)
 admin.site.register(MediaCategory)
 admin.site.register(User)
 admin.site.register(Role)
+admin.site.register(Setting)

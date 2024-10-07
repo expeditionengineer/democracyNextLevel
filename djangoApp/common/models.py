@@ -83,3 +83,26 @@ class User(AbstractUser):
     def create_auth_token(sender, instance=None, created=False, **kwargs):
         if created:
             Token.objects.create(user=instance)
+
+class Setting(models.Model):
+    """Model to safe the settings of the app.
+
+    """
+    voter_debate_points_interesting = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_trust = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_not_trust = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_agree = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_not_agree = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_proposal = models.IntegerField(
+        default=0,
+    )

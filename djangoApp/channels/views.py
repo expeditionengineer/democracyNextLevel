@@ -130,3 +130,40 @@ class DebateCardsView(APIView):
         obj.save()
 
         return HttpResponse(status=200)
+
+class DebatePointsView(APIView):
+    """
+
+    """
+    def post(self, request):
+        """Is executed when a POST-request is sent to `/debate-points`-endpoint.
+
+        """
+        if not request.user.is_authenticated:
+            return HttpResponse(status=403)
+
+
+        userIsVoter = False
+            
+        for role in request.user.roles.all():
+            if role.role == "Voter":
+                userIsVoter = True
+
+        if not userIsVoter:
+            return HttpResponse(status=403)
+        
+        typeOfDebatePoint = int(request.data["type"])
+        
+        # get max number of points user can have for debate point type:
+        
+
+        # check if the user has not used all their Points for that category yet:
+        
+
+        debateCardObj = DebateCard.objects.get(id=int(request.data["cardId"]))
+
+        DebatePoint.objects.get_or_create(
+            card=debateCardObj,
+
+        )
+

@@ -33,7 +33,7 @@ const DebateCardView = ({ debateCardsForNews, categoryNumber, elementNumber }) =
             : `http://127.0.0.1:8000${debateCardInfoElements[elementNumber].image}`
         }
         description={debateCardInfoElements[elementNumber].description}
-        buttonbar={<CardButtons proposal={true} />}
+        buttonbar={<CardButtons proposal={true} debateCardId={debateCardInfoElements[elementNumber].id} />}
         link="#"
       />
     </Row>
