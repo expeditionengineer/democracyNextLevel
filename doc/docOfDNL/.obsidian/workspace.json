@@ -1,0 +1,172 @@
+{
+  "main": {
+    "id": "fd5252d85637a30c",
+    "type": "split",
+    "children": [
+      {
+        "id": "cb5c96fdaa6373c7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "75e9ee31c0813b0a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Welcome.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "f747cca5b1fec11c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ce9b35555a1434dc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "debate cards.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "6a2a7f15c892bc21",
+    "type": "split",
+    "children": [
+      {
+        "id": "dad31a04819cd5d6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "14c6e9aa05e25070",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "1a6cd7e5ff30a212",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "cd85ff00d3963f0e",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "75c2efb2f4a0e424",
+    "type": "split",
+    "children": [
+      {
+        "id": "1f3348b9a6584701",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "420050676edab1e4",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "debate cards.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "ac7d50421aa94d7e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "debate cards.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "da697d7bdfcf842c",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "cc2e06db545adee5",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "debate cards.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "ce9b35555a1434dc",
+  "lastOpenFiles": [
+    "debate cards.md",
+    "Welcome.md"
+  ]
+}

@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.parsers import MultiPartParser, FormParser
 
-from channels.serializers import NewsSerializer, DebateCardSerializer
+from channels.serializers import NewsSerializer, DebateCardSerializer, DebatePointSerializer
 from .models import News, DebateCard, DebatePoint
 from common.models import Setting
 
@@ -172,18 +172,46 @@ class DebatePointsView(APIView):
         debateCardObj = DebateCard.objects.get(id=int(request.data["cardId"]))
 
         # check if the user has not used all their Points for that category yet:
-        nbrDebatePointsForCardAndUser = DebatePoint.objects.filter(card=debateCardObj, voter=request.user).count()        
-        if nbrDebatePointsForCardAndUser >= maxNbrOfPointsPerCard:
+        nbrDebatePointsForCardAndUser = DebatePoint.objects.filter(card=debateCardObj, voter=request.user, type=typeOfDebatePoint).count()        
+        nbrPointsOfOneTypeUser = DebatePoint.objects.filter(voter=request.user, type=typeOfDebatePoint).count()
+        if nbrDebatePointsForCardAndUser >= maxNbrOfPointsPerCard or nbrPointsOfOneTypeUser >= maxNbrOfPointsPerCard:
             return HttpResponse(status=405)
 
-        DebatePoint.objects.get_or_create(
+
+        debatePointNewObj, created = DebatePoint.objects.get_or_create(
             card=debateCardObj,
             type=typeOfDebatePoint,
             voter=request.user,
             date=datetime.now(),
         )
 
-        return HttpResponse(status=200)
+        serializer = DebatePointSerializer(debatePointNewObj)
+        return Response(serializer.data)
+
+    def delete(self, request):
+        """Delete the debate point, whose id comes in the body.
+
+        """
+        if not request.user.is_authenticated:
+            return HttpResponse(status=403)
+
+
+        userIsVoter = False
+
+        for role in request.user.roles.all():
+            if role.role == "Voter":
+                userIsVoter = True
+
+        if not userIsVoter:
+            return HttpResponse(status=403)
+
+        debatePointObj = DebatePoint.objects.get(id=int(request.data["id"]))
+
+        if debatePointObj.voter == request.user:
+            debatePointObj.delete()
+            return Response(status=200)
+        
+        return Reponse(status=403)
 
 class DebatePointForCard(APIView):
     """
@@ -206,6 +234,17 @@ class DebatePointForCard(APIView):
         if not userIsVoter:
             return HttpResponse(status=403)
 
-        pointsForUserAndCard = DebatePoint.objects.filter(voter=request.user, card=int(cardId))
+        pointsForUserAndCard = DebatePoint.objects.filter(card=int(cardId))
         serializer = DebatePointSerializer(pointsForUserAndCard, many=True)
-        return Response(serializer.data)
+        
+        # categorize DebatePoints in authorized 'User' and rest:
+        responseDict = {}
+        responseDict["User"] = []
+        responseDict[""] = []
+        for serializedObj in serializer.data:
+            if serializedObj["voter"] == request.user.id:
+                responseDict["User"].append(serializedObj)
+            else:
+                responseDict[""].append(serializedObj)
+
+        return Response(responseDict)

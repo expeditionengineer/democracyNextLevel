@@ -3,6 +3,7 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 from events.models import Tag
+from .manager import DebateManager
 
 # class Channel:
 # when channel is created a QR-code should be generated,
@@ -13,6 +14,7 @@ from events.models import Tag
 
 class DebatePoint(models.Model):
     """ """
+      
 
     date = models.DateTimeField()
     voter = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -25,8 +27,8 @@ class DebatePoint(models.Model):
     point = models.IntegerField(
         validators=[MaxValueValidator(1), MinValueValidator(-1)],
         default=0,
-    )
-    
+    ) 
+
     def __str__(self):
         return self.voter.username
 
