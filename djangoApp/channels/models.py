@@ -5,16 +5,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from events.models import Tag
 from .manager import DebateManager
 
-# class Channel:
-# when channel is created a QR-code should be generated,
-# which links to the medium-product on the website.
-
-# all channel instances can have at most one link
-
 
 class DebatePoint(models.Model):
     """ """
-      
+    objects = DebateManager()
 
     date = models.DateTimeField()
     voter = models.ForeignKey(settings.AUTH_USER_MODEL,

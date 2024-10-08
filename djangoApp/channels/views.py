@@ -176,17 +176,19 @@ class DebatePointsView(APIView):
         nbrPointsOfOneTypeUser = DebatePoint.objects.filter(voter=request.user, type=typeOfDebatePoint).count()
         if nbrDebatePointsForCardAndUser >= maxNbrOfPointsPerCard or nbrPointsOfOneTypeUser >= maxNbrOfPointsPerCard:
             return HttpResponse(status=405)
+        
+        if DebatePoint.objects.checkIfPointCanBePlaced(request.user, debateCardObj, int(request.data["type"])):
 
-
-        debatePointNewObj, created = DebatePoint.objects.get_or_create(
-            card=debateCardObj,
-            type=typeOfDebatePoint,
-            voter=request.user,
-            date=datetime.now(),
-        )
-
-        serializer = DebatePointSerializer(debatePointNewObj)
-        return Response(serializer.data)
+            debatePointNewObj, created = DebatePoint.objects.get_or_create(
+                card=debateCardObj,
+                type=typeOfDebatePoint,
+                voter=request.user,
+                date=datetime.now(),
+            )
+            serializer = DebatePointSerializer(debatePointNewObj)
+            return Response(serializer.data)
+        
+        return Response({"error": "Score too high for user and card. Only allowed to add +1 oder -1"}) 
 
     def delete(self, request):
         """Delete the debate point, whose id comes in the body.
