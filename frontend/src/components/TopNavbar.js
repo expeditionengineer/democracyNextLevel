@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -12,6 +13,56 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Search } from 'react-bootstrap-icons';
 
 const TopNavbar = ({showLeftNavbar}) => {
+ const navigate = useNavigate();
+ const [userData, setUserData] = useState({});
+ const [fetchedUserData, setFetchedUserData] = useState(false);
+ const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(
+    () => {
+      const token = localStorage.getItem("token");
+      if (token != undefined) {
+        setLoggedIn(true);
+      }
+      else {
+        setLoggedIn(false);
+      }
+    }
+  )
+
+  useEffect(
+    () => {
+      const fetchUserData = async () => {
+        const token = localStorage.getItem("token");
+        try {
+          const response = await fetch("http://127.0.0.1:8000/user", {
+            method: "GET",
+            headers: {
+              'Content-Type': 'application/json',  // Set content type
+              'Authorization': `Token ${token}`,  // Append the token to the Authorization header
+            },
+          });
+          if (!response.ok) {
+          throw new Error('Failed to fetch data');
+          }
+            const json = await response.json();
+            setUserData(json);
+            setFetchedUserData(true);
+            setLoggedIn(true);
+
+        } catch (error) {
+          console.error("Error occured: ", error)
+        }
+      }
+      fetchUserData();
+    }, []);
+
+  const logout = (e) => {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+    navigate("/login");
+  }
+
   return (
     <Navbar sticky="top" expand="lg">
       <Container fluid>
@@ -35,20 +86,22 @@ const TopNavbar = ({showLeftNavbar}) => {
             <Button type="submit">Suchen</Button>
           </InputGroup>
         </Form>
+        { fetchedUserData && loggedIn ? (
         <Dropdown
           align={{ xs: 'start' }}
         >
-          <Dropdown.Toggle variant="text">
+        <Dropdown.Toggle variant="text">
             <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
-            <strong className="d-none d-lg-inline">Max Mustermann</strong>
+    <strong className="d-none d-lg-inline">{`${userData.firstname} ${userData.lastname}`}</strong>
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item href="#">Profil</Dropdown.Item>
             <Dropdown.Item href="#">Einstellungen</Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item href="#">Logout</Dropdown.Item>
+            <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown>)
+      : null }
       </Container>
     </Navbar>
   )

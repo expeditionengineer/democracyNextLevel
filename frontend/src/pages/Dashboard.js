@@ -201,10 +201,6 @@ useEffect(() => {
   return (
   <>
     {!loading && loadingForUserCategory()}
-    <h1>{keyPressed}</h1>
-    <h1>{positionNews}</h1>
-    <h1>{newsData.length}</h1>
-    <h1>{debateCategoryView}</h1>
     {debateCategoryView == 0 && newsDataLoaded && debateDataLoaded ? <ProposalView newsData={newsData} positionNews={positionNews} /> : 
       newsMeta[positionNews] ? (<DebateCardView  debateCardsForNews={debateCardsForNews} categoryNumber={debateCategoryView} elementNumber={newsMeta[positionNews][debateCategoryView]}  />) : <div>Loading debate card data...</div>}
   </>
