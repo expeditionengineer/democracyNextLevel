@@ -7,6 +7,10 @@ const CreateProposal = () => {
   const [file, setFile] = useState("");
   const navigate = useNavigate(); // Initialize the hook
   
+  const [proposalType, setProposalType] = useState("");
+  const [currentStep, setCurrentStep] = useState(1);
+
+
   const sendNewsObjToBackend = () => {
   const token = localStorage.getItem('token');
   
@@ -36,21 +40,37 @@ const CreateProposal = () => {
 };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-      <h1>Create a news</h1>
-      <div style={{display: 'flex', flexDirection: 'column', margin: '50px', width: '900px'}}> 
-        <input id="newsTitle" type="text" placeholder="Title" onChange={(e) => setTitle(e.target.value)}  />
-        <input id="newsText" type="text" placeholder="News Text" onChange={(e) => {setNewsText(e.target.value)}} />
-        <label>Upload a image: </label>
-        <input type="file" id="imageInput" onChange={(e) => {
-          console.log(e.target.files);
-          setImage(URL.createObjectURL(e.target.files[0]));
-          setFile(e.target.files[0]);
-        }} />
-        <img src={image} />
-        <input type="submit" onClick={sendNewsObjToBackend} /> 
+    <>
+      <div id="step1">
+        <Dropdown>
+          <Dropdown.Toggle variant="success" id="dropdown-basic" onChange={(e) => { setProposalType(e.target.value) }}>
+            Select a proposal type.
+          </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item value="News">News</Dropdown.Item>
+        <Dropdown.Item value="Events">Events</Dropdown.Item>
+        <Dropdown.Item value="Actors">Actors</Dropdown.Item>
+        <Dropdown.Item value="Projects">Projects</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
       </div>
-    </div>
+      <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+        <h1>Create a news</h1>
+        <div style={{display: 'flex', flexDirection: 'column', margin: '50px', width: '900px'}}> 
+          <input id="newsTitle" type="text" placeholder="Title" onChange={(e) => setTitle(e.target.value)}  />
+          <input id="newsText" type="text" placeholder="News Text" onChange={(e) => {setNewsText(e.target.value)}} />
+          <label>Upload a image: </label>
+          <input type="file" id="imageInput" onChange={(e) => {
+            console.log(e.target.files);
+            setImage(URL.createObjectURL(e.target.files[0]));
+            setFile(e.target.files[0]);
+          }} />
+          <img src={image} />
+          <input type="submit" onClick={sendNewsObjToBackend} /> 
+        </div>
+      </div>
+    </>
   )
 }
 export default CreateProposal;
