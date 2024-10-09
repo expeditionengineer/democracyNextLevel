@@ -32,8 +32,7 @@ function Login() {
     })
     .then(data => {
       localStorage.setItem('token', data.key);
-      debugger;
-      navigate('/news');
+      navigate('/dashboard');
     })
     .catch(error => {
       setError(error.message);
@@ -52,7 +51,8 @@ function Login() {
           <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </Form.Group>
         {error && <div>{error}</div>}
-        <Button variant="primary" type="submit">Login</Button>
+        <Button variant="primary" type="submit">Login</Button><br />
+        <Button variant="primary" href="/registration">Register</Button> 
       </Form>
     </main>
   );
