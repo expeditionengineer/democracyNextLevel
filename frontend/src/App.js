@@ -10,7 +10,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import CreateEvent from './CreateEvent';
 import CreateContent from './pages/CreateContent';
-import CreateNews from './pages/CreateNews';
+import CreateProposal from './pages/CreateProposal';
 import IotDeviceMap from './iotDeviceLocation';
 import NoPage from "./pages/NoPage";
 import News from './pages/News';
@@ -43,7 +43,7 @@ function App() {
           <Route path="/create-content" element={<CreateContent />} />
           <Route path="/iotdevices" element={<IotDeviceMap />} />
           <Route path="/news" element={<News />} />
-          <Route path="/create-news" element={<CreateNews />} />
+          <Route path="/create-proposal" element={<CreateProposal />} />
           <Route path="/create-debate-card" element={<CreateDebateCard />} />
           <Route path="*" element={<NoPage />} />
         </Route>

@@ -109,7 +109,7 @@ const Dashboard = () => {
   const loadingForUserCategory = () => {
     if (data["roles"].includes(1)) {
       return (
-        <Link href="/create-news">Create News</Link>
+        <Link href="/create-proposal">Create Proposal</Link>
       );
     }
     if (data["roles"].includes(3)) {

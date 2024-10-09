@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-const CreateNews = () => {
+const CreateProposal = () => {
   const [title, setTitle] = useState("");
   const [newsText, setNewsText] = useState("");
   const [image, setImage] = useState(null);
@@ -53,4 +53,4 @@ const CreateNews = () => {
     </div>
   )
 }
-export default CreateNews;
+export default CreateProposal;

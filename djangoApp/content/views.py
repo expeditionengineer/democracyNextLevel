@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from rest_framework.views import APIView
 # from .models import Content
 # from .serializers import ContentSerializer
 
@@ -20,3 +21,15 @@ from rest_framework.response import Response
 #             serializer.save()
 #             return Response(serializer.data)
 #         return Response(serializer.errors)
+
+class ProposalView(APIView):
+    """
+
+    """
+    def get(self, request):
+        """get all proposals
+
+        """
+        pass
+
+    

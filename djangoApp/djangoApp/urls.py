@@ -29,6 +29,7 @@ from channels.views import (
 from events.views import UserEventList, get_published_events
 from iotManager.views import IotDeviceAPI, execute_scraper
 from common.views import *
+from content.views import ProposalView
 # from content.views import ContentAPI
 
 urlpatterns = [
@@ -53,7 +54,7 @@ urlpatterns = [
     path("debate-cards/", DebateCardsView.as_view(), name="allDebateCards"),
     path("debate-points/", DebatePointsView.as_view(), name="debatePoints"), 
     path("debate-points/<int:cardId>", DebatePointForCard.as_view(), name="debatePointsCard"), 
-
+    path("proposals/", ProposalView.as_view(), name="proposals"),
     # path("contents/", ContentAPI.as_view(), name="contents"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
