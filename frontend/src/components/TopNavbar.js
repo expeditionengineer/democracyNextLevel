@@ -92,7 +92,7 @@ const TopNavbar = ({showLeftNavbar}) => {
         >
         <Dropdown.Toggle variant="text">
             <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
-    <strong className="d-none d-lg-inline">{`${userData.firstname} ${userData.lastname}`}</strong>
+    <strong className="d-none d-lg-inline">{`${userData.first_name} ${userData.last_name}`}</strong>
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item href="#">Profil</Dropdown.Item>
