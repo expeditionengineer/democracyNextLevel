@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
+from common.models import User
+
 class Proposal(models.Model):
     """This model acts as a superordinated model for the subordinated models
     news, events, etc.
