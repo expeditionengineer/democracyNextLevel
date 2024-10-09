@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import Form from 'react-bootstrap/Form';
+
+import CreateNews from '../components/CreateNews';
+import CreateEvent from '../components/CreateEvent';
+
 const CreateProposal = () => {
   const [title, setTitle] = useState("");
   const [newsText, setNewsText] = useState("");
@@ -42,34 +47,16 @@ const CreateProposal = () => {
   return (
     <>
       <div id="step1">
-        <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic" onChange={(e) => { setProposalType(e.target.value) }}>
-            Select a proposal type.
-          </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item value="News">News</Dropdown.Item>
-        <Dropdown.Item value="Events">Events</Dropdown.Item>
-        <Dropdown.Item value="Actors">Actors</Dropdown.Item>
-        <Dropdown.Item value="Projects">Projects</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+        <Form.Select aria-label="Default select example" onChange={(e) => { setProposalType(e.target.value); }}>
+          <option>Open this select menu</option>
+          <option value="News">News</option>
+          <option value="Event">Event</option>
+          <option value="Actors">Actors</option>
+          <option value="Projects">Projects</option>
+        </Form.Select>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-        <h1>Create a news</h1>
-        <div style={{display: 'flex', flexDirection: 'column', margin: '50px', width: '900px'}}> 
-          <input id="newsTitle" type="text" placeholder="Title" onChange={(e) => setTitle(e.target.value)}  />
-          <input id="newsText" type="text" placeholder="News Text" onChange={(e) => {setNewsText(e.target.value)}} />
-          <label>Upload a image: </label>
-          <input type="file" id="imageInput" onChange={(e) => {
-            console.log(e.target.files);
-            setImage(URL.createObjectURL(e.target.files[0]));
-            setFile(e.target.files[0]);
-          }} />
-          <img src={image} />
-          <input type="submit" onClick={sendNewsObjToBackend} /> 
-        </div>
-      </div>
+      {proposalType === "News" ? <CreateNews /> : null} 
+      {proposalType === "Event" ? <CreateEvent /> : null} 
     </>
   )
 }

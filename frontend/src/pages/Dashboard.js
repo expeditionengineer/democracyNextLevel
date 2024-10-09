@@ -8,6 +8,7 @@ import ProposalViewCreator from '../components/ProposalViewCreator';
 import DebateCardView from '../components/DebateCardView';
 
 import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import testPic from '../graphics/Schock.jpg';
@@ -43,7 +44,6 @@ const Dashboard = () => {
           throw new Error('Failed to fetch data');
         }
         const result = await response.json();
-        debugger;
         setData(result);
         setLoading(false);
         //setData(result);  // Update state with fetched data
@@ -109,7 +109,7 @@ const Dashboard = () => {
   const loadingForUserCategory = () => {
     if (data["roles"].includes(1)) {
       return (
-        <Link href="/create-proposal">Create Proposal</Link>
+        <Button href="/create-proposal">Create Proposal</Button>
       );
     }
     if (data["roles"].includes(3)) {
@@ -202,7 +202,9 @@ useEffect(() => {
 
   return (
   <>
-    {!loading && loadingForUserCategory()}
+    <Row as="main" xs={1} xl={2} xxl={3}>
+    {!loading ? loadingForUserCategory() : null}
+    </Row>
     {debateCategoryView == 0 && newsDataLoaded && debateDataLoaded && !loading ? data["roles"].includes(3) ? (<ProposalView newsData={newsData} positionNews={positionNews} />) : (<ProposalViewCreator newsData={newsData} positionNews={positionNews} />) : 
       newsMeta[positionNews] ? (<DebateCardView  debateCardsForNews={debateCardsForNews} categoryNumber={debateCategoryView} elementNumber={newsMeta[positionNews][debateCategoryView]} />) : <div>Loading debate card data...</div>}
   </>

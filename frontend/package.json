@@ -11,6 +11,7 @@
     "html-react-parser": "^5.1.12",
     "hyphenated-de": "^1.2.0",
     "leaflet": "^1.9.4",
+    "primereact": "^10.8.4",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.2",
     "react-bootstrap-icons": "^1.11.4",

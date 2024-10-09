@@ -20,8 +20,6 @@ const color = "red"
         date={newsData[positionNews].creationDateTime}
         picLink={newsData[positionNews].image == null ? testPic: `http://127.0.0.1:8000${newsData[positionNews].image}`}
         description={newsData[positionNews].text}
-        />}
-        link="#"
       /> 
     </Row>
   )
