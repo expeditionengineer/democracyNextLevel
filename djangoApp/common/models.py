@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.postgres.fields import ArrayField
-
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
 class Agent(models.Model):
     """Track AI Agents"""
@@ -45,6 +48,8 @@ class Role(models.Model):
     """
     role = models.CharField(max_length=200, blank=True, null=True)
 
+    def __str__(self):
+        return self.role
 
 class User(AbstractUser):
     """Modification of the Django default user model."""
@@ -73,3 +78,34 @@ class User(AbstractUser):
     ai_agent = models.ManyToManyField(Agent, blank=True, null=True)
     roles = models.ManyToManyField(Role, blank=True, null=True)
     motivation = models.TextField(blank=True, null=True)
+
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def create_auth_token(sender, instance=None, created=False, **kwargs):
+        if created:
+            Token.objects.create(user=instance)
+
+class Setting(models.Model):
+    """Model to safe the settings of the app.
+
+    """
+    voter_debate_points_proposal = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_fact = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_pro_arg = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_con_arg = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_question = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_improvment = models.IntegerField(
+        default=0,
+    )
+    voter_debate_points_comp_proposal = models.IntegerField(
+        default=0,
+    )

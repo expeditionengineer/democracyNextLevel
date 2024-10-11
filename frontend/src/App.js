@@ -10,10 +10,12 @@ import ProtectedRoute from './ProtectedRoute';
 import Dashboard from './pages/Dashboard';
 import CreateEvent from './CreateEvent';
 import CreateContent from './pages/CreateContent';
+import CreateProposal from './pages/CreateProposal';
 import IotDeviceMap from './iotDeviceLocation';
 import NoPage from "./pages/NoPage";
 import News from './pages/News';
 import DisplaySlideshow from './pages/DisplaySlideshow';
+import CreateDebateCard from './pages/CreateDebateCard';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -31,7 +33,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout />}>
           <Route index element={!token ? <Login /> : <Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
@@ -41,13 +43,15 @@ function App() {
           <Route path="/create-content" element={<CreateContent />} />
           <Route path="/iotdevices" element={<IotDeviceMap />} />
           <Route path="/news" element={<News />} />
+          <Route path="/create-proposal" element={<CreateProposal />} />
+          <Route path="/create-debate-card" element={<CreateDebateCard />} />
           <Route path="*" element={<NoPage />} />
         </Route>
-        <Route path="/display-slideshow" element={<DisplaySlideshow />} /> */}
+        <Route path="/display-slideshow" element={<DisplaySlideshow />} />
         <Route path="/dialog-based-conflict-resolution" element={<WorkshopSignup workshopVariant={1} />} />
         <Route path="/the-eye-the-game" element={<WorkshopSignup workshopVariant={2} />} />
         <Route path="/legal" element={<WorkshopSignupLegalInformation />} />
-        <Route path="*" element={<Navigate to="/dialog-based-conflict-resolution" replace />} />
+        //<Route path="*" element={<Navigate to="/dialog-based-conflict-resolution" replace />} />
       </Routes>
     </Router>
   );

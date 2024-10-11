@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db import models
 from django.conf import settings
 
+from content.models import Tag
 
 class Location(models.Model):
     name = models.CharField(max_length=200)
@@ -19,15 +20,6 @@ class Organizer(models.Model):
     name = models.CharField(max_length=200)
     telefon = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
-
-
-class Tag(models.Model):
-    """Django-Model-class for the Tag-ORM"""
-
-    name = models.CharField(max_length=200, unique=True)
-
-    def __str__(self):
-        return self.name
 
 
 class Event(models.Model):

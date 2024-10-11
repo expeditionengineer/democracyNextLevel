@@ -3,25 +3,26 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 from events.models import Tag
-
-# class Channel:
-# when channel is created a QR-code should be generated,
-# which links to the medium-product on the website.
-
-# all channel instances can have at most one link
+from .manager import DebateManager
 
 
 class DebatePoint(models.Model):
     """ """
+    objects = DebateManager()
 
     date = models.DateTimeField()
     voter = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE)
+    card = models.ForeignKey("DebateCard", on_delete=models.CASCADE, blank=True, null=True)
+    type = models.IntegerField(
+        validators=[MaxValueValidator(5), MinValueValidator(1)],
+        default=1,
+    )
     point = models.IntegerField(
         validators=[MaxValueValidator(1), MinValueValidator(-1)],
         default=0,
-    )
-    
+    ) 
+
     def __str__(self):
         return self.voter.username
 
@@ -63,7 +64,7 @@ class News(models.Model):
     heading = models.CharField(max_length=70)
     text = models.CharField(max_length=155)
     approvedByModerator = models.BooleanField(default=False)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to='images/')
 
     # these attributes can maybe be moved in a parent class
     createdBy = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -73,7 +74,7 @@ class News(models.Model):
     published = models.BooleanField(default=False)
     tag = models.ManyToManyField(Tag, blank=True, null=True)
 
-    link = models.CharField(max_length=200)
+    link = models.CharField(max_length=200, blank=True, null=True)
 
 
 class Project(models.Model):

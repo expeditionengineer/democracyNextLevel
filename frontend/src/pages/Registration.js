@@ -88,6 +88,7 @@ function Interests({ interestCategories, setInterests }) {
 }
 
 function Registration() {
+  const navigate = useNavigate();
   const [status, setStatus] = useState(null); // for server response
   const [validated, setValidated] = useState(false);
   
@@ -226,6 +227,9 @@ function Registration() {
     postRegistration(dataObj)
     .then(res => {
       setStatus(res);
+      if (res.ok) {
+        navigate("/dashboard");
+      }
     })
     .catch(
       err => {

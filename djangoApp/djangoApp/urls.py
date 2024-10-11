@@ -19,9 +19,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
+from channels.views import (
+        NewsView,
+        DebateCardNewsView,
+        DebateCardsView,
+        DebatePointsView,
+        DebatePointForCard,
+)
 from events.views import UserEventList, get_published_events
 from iotManager.views import IotDeviceAPI, execute_scraper
 from common.views import *
+from content.views import ProposalView, TagView
 # from content.views import ContentAPI
 
 urlpatterns = [
@@ -29,6 +37,9 @@ urlpatterns = [
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path("events/", UserEventList.as_view(), name="user-evnts"),
     path("events/published/", get_published_events, name="published_events"),
+    path("user/", UserView.as_view(), name="UserView"),
+    path("users/", UsersView.as_view(), name="Usernames"),
+    path('auth/', include('dj_rest_auth.urls')),  # Authentication URLs (Login, Logout, User Details)
     path("dj-rest-auth/registration/",
          include("dj_rest_auth.registration.urls")),
     path("iotdevices/", IotDeviceAPI.as_view(), name="iotdevices"),
@@ -39,5 +50,15 @@ urlpatterns = [
     path("media-categories/", MediaCategoryView.as_view(), name="mediaCategory"),
     path("agents/", AgentsView.as_view(), name="agents"),
     path("roles/", RolesView.as_view(), name="roles"),
+    path("news/", NewsView.as_view(), name="newsView"),
+    path("debate-cards/news/<int:id>", DebateCardNewsView.as_view(), name="debateCards"),
+    path("debate-cards/", DebateCardsView.as_view(), name="allDebateCards"),
+    path("debate-points/", DebatePointsView.as_view(), name="debatePoints"), 
+    path("debate-points/<int:cardId>", DebatePointForCard.as_view(), name="debatePointsCard"), 
+    path("proposals/", ProposalView.as_view(), name="proposals"),
+    path("tags/", TagView.as_view(), name="tags"),
+
     # path("contents/", ContentAPI.as_view(), name="contents"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

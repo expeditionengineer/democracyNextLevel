@@ -1,6 +1,9 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.exceptions import PermissionDenied
+from rest_framework import status
 
 from .serializers import *
 from .models import (
@@ -9,6 +12,7 @@ from .models import (
     MediaCategory,
     ContentCategory,
 )
+from events.serializers import CustomRegisterSerializer 
 
 class ArearOfInterestView(APIView):
     """Class-based view for 
@@ -62,3 +66,39 @@ class RolesView(APIView):
         serializer = RolesSerializer(allAgentObjs, many=True)
 
         return Response(serializer.data)
+
+class UserView(APIView):
+    """Return the user data of the currently logged in user.
+
+    """
+    def get(self, request):
+        """
+
+        """
+        if request.user.is_authenticated:
+            serializer = CustomRegisterSerializer(request.user)
+            return Response(serializer.data) 
+        else:
+            return Response({"detail": "Forbidden"}, status=status.HTTP_403_FORBIDDEN)
+
+class UsersView(APIView):
+    """
+
+    """
+    def get(self, request):
+        """Return a list of objects, where each object 
+
+        """
+        if request.user.is_authenticated:
+            allUsers = User.objects.all()
+            serializedUsers = []
+
+            for user in allUsers:
+                currentSerializedUser = {}
+                currentSerializedUser["id"] = user.id
+                currentSerializedUser["nameStr"] = f"{user.first_name} {user.last_name}"
+                serializedUsers.append(currentSerializedUser)
+            
+            return Response(serializedUsers)
+        
+        return HttpResponse(status=401)
