@@ -29,7 +29,7 @@ from channels.views import (
 from events.views import UserEventList, get_published_events
 from iotManager.views import IotDeviceAPI, execute_scraper
 from common.views import *
-from content.views import ProposalView
+from content.views import ProposalView, TagView
 # from content.views import ContentAPI
 
 urlpatterns = [
@@ -38,6 +38,7 @@ urlpatterns = [
     path("events/", UserEventList.as_view(), name="user-evnts"),
     path("events/published/", get_published_events, name="published_events"),
     path("user/", UserView.as_view(), name="UserView"),
+    path("users/", UsersView.as_view(), name="Usernames"),
     path('auth/', include('dj_rest_auth.urls')),  # Authentication URLs (Login, Logout, User Details)
     path("dj-rest-auth/registration/",
          include("dj_rest_auth.registration.urls")),
@@ -55,6 +56,8 @@ urlpatterns = [
     path("debate-points/", DebatePointsView.as_view(), name="debatePoints"), 
     path("debate-points/<int:cardId>", DebatePointForCard.as_view(), name="debatePointsCard"), 
     path("proposals/", ProposalView.as_view(), name="proposals"),
+    path("tags/", TagView.as_view(), name="tags"),
+
     # path("contents/", ContentAPI.as_view(), name="contents"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

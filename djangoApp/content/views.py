@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from rest_framework.views import APIView
-# from .models import Content
-# from .serializers import ContentSerializer
+
+from .models import Tag
+from .serializers import TagSerializer
 
 # Create your views here.
 # class ContentAPI(APIView):
@@ -32,4 +34,51 @@ class ProposalView(APIView):
         """
         pass
 
+
+class TagView(APIView):
+    """
+
+    """
+    def get(self, request):
+        """Send all available tags to the frontend.
+
+        """
+        
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
     
+        userIsCreator = False
+            
+        for role in request.user.roles.all():
+            if role.role == "Creator":
+                userIsCreator = True
+
+        allTagObjects = Tag.objects.all()
+        tagSerializer = TagSerializer(allTagObjects, many=True)
+
+        return Response(tagSerializer.data)
+
+    def post(self, request):
+        """
+
+        """
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+    
+        userIsCreator = False
+            
+        for role in request.user.roles.all():
+            if role.role == "Creator":
+                userIsCreator = True
+
+        tagObj, created = Tag.objects.get_or_create(
+            name=request.data["name"]
+        )
+
+        serializer = TagSerializer(tagObj)
+
+        return Response(serializer.data)
+
+
+
+

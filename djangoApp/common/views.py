@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
@@ -79,3 +80,25 @@ class UserView(APIView):
             return Response(serializer.data) 
         else:
             return Response({"detail": "Forbidden"}, status=status.HTTP_403_FORBIDDEN)
+
+class UsersView(APIView):
+    """
+
+    """
+    def get(self, request):
+        """Return a list of objects, where each object 
+
+        """
+        if request.user.is_authenticated:
+            allUsers = User.objects.all()
+            serializedUsers = []
+
+            for user in allUsers:
+                currentSerializedUser = {}
+                currentSerializedUser["id"] = user.id
+                currentSerializedUser["nameStr"] = f"{user.first_name} {user.last_name}"
+                serializedUsers.append(currentSerializedUser)
+            
+            return Response(serializedUsers)
+        
+        return HttpResponse(status=401)
